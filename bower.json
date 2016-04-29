@@ -21,6 +21,7 @@
     "bower.json",
     "gruntfile.js",
     "README.md",
-    "sass"
+    "sass",
+    "js"
   ]
 }
