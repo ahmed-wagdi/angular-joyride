@@ -10,8 +10,18 @@ app.controller('mainController', ['$scope', 'joyrideService', function($scope, j
 
 	joyride.steps = [
 		{
-			title: "Step 1",
-			content: "Test"
+			title: "Joyride Demo",
+			content: "<p>Welcome to the joyride demo!</p><p>This is a simple joyride directive built to have minimal dependencies.</p>"
+		},
+		{
+			title: "Joyride Demo",
+			content: "This can be used to provide a step by step walkthrough of your website."
+		},
+		{
+			type: "element",
+			selector: "#button",
+			title: "Joyride Demo",
+			content: "You can highlight elements on the page"
 		}
 	]
 }]);
