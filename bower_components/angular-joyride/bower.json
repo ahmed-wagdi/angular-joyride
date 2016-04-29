@@ -1,0 +1,27 @@
+{
+  "name": "angular-joyride",
+  "version": "0.1",
+  "homepage": "https://github.com/ahmed-wagdi/angular-joyride",
+  "description": "A lightweight joyride directive for AngularJs",
+  "main": "dist/joyride.js",
+  "moduleType": [],
+  "keywords": [
+    "joyride",
+    "angular",
+    "directive"
+  ],
+  "authors": [
+    "Ahmed Wagdi"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "bower.json",
+    "gruntfile.js",
+    "README.md",
+    "sass",
+    "js"
+  ]
+}
