@@ -1,0 +1,195 @@
+@import 'bourbon/bourbon';
+
+// my-joyride{
+
+	.jr_container{
+		display: none;
+		background: white;
+		width: 100%;
+		max-width: 400px;
+		position: absolute;
+		z-index: 1001;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+		border: 1px solid #FFFFFF;
+		transition: opacity .3s, transform .3s;
+
+		&:not(.jr_element){
+			left: 0; 
+			right: 0;
+			margin: auto;
+		}
+
+		&.jr_element{
+			max-width: 300px;
+			&:after{
+				content: "";
+				position: absolute;
+				margin: auto;
+				
+			}
+			&.jr_pos_bottom{
+				&:after{
+					left: 0;
+					right: 0;
+					bottom: 100%;
+					@include triangle(25px, white, up);
+				}
+			}
+			&.jr_pos_top{
+				&:after{
+					top: 100%;
+					@include triangle(25px, white, down);
+				}
+			}
+			&.jr_pos_left{
+				
+				&:after{
+					left: 100%;
+					top: 20px;
+					@include triangle(25px, white, right);
+				}
+			}
+			&.jr_pos_right{
+				
+				&:after{
+					right: 100%;
+					top: 20px;
+					@include triangle(25px, white, left);
+				}
+			}
+		}
+		////////PLACEMENT STYLES
+		&.jr_pos_bottom{
+			&:after{
+				left: 0;
+				right: 0;
+				margin: auto;
+				bottom: 100%;
+				@include triangle(25px, white, up);
+			}
+		}
+
+		&.jr_pos_top{
+			&:after{
+				left: 0;
+				right: 0;
+				margin: auto;
+				top: 100%;
+				@include triangle(25px, white, down);
+			}
+		}
+
+		//////// START/END ANIMATIONS
+		&.jr_start{
+			display: block;
+		}
+		&.jr_start-remove {
+		    display: block;
+		    opacity: 1;
+		}
+		&.jr_start-remove-active {
+		    opacity: 0;
+		}
+		&.jr_start-add {
+		    display: block;
+		    opacity: 0;
+		}
+		&.jr_start-add-active {
+			opacity: 1;
+		}
+
+		//////////// STEP TRANSITION ANIMATIONS
+		&.jr_transition{
+			opacity: 0;
+		}
+		&.jr_transition-add {
+		    
+			opacity: 1;
+			@include transform(translateY(0px));
+		}
+		&.jr_transition-add-active {
+		    @include transform(translateY(-100px));
+		    opacity: 0;
+		}
+
+		&.jr_transition-remove {
+		    opacity: 0;
+		    @include transform(translateY(-100px));
+		}
+
+		&.jr_transition-remove-active {
+			opacity: 1;
+		    @include transform(translateY(0px));
+		}
+		
+		
+		.jr_title{
+			padding: 10px;
+			// background: #28B39F;
+			color: gray;
+			margin: 0;
+			font-size: 15px;
+			border-bottom: 1px solid #F5F5F5;
+		}
+		.jr_content{
+			padding: 10px;
+			font-size: 13px;
+			p{
+				font-size: 13px;
+			}
+		}
+		.jr_buttons{
+			padding: 10px;
+			@include clearfix;
+		}
+		.jr_left-buttons{
+			float: left;
+		}
+		.jr_right-buttons{
+			float: right;
+			.jr_button:first-child{
+				margin-right: 5px;
+			}
+		}
+		.jr_button{
+		    background: #3E4150;
+		    padding: 5px 15px;
+		    color: white;
+		    font-weight: 500;
+		    font-size: 12px;
+		    cursor: pointer;
+		    &.disabled{
+	    	    background-color: #CCCCCC;
+			    color: #868686;
+		    }
+		}
+		.jr_skip{
+			background-color: #C1C1C1;
+			color: #525252;
+		}
+	}
+	.jr_overlay{
+		background: transparentize(black, .5);
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		z-index: 1000;
+		// height: 0%;
+		opacity: 0;
+		transition: opacity .3s;
+	}
+// }
+
+.jr_active{
+	.jr_overlay{
+		// height: 100%;
+		opacity: 1;
+	}
+}
+
+.jr_target{
+	position: relative;
+	z-index: 1001;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.26);
+}
