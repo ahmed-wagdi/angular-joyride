@@ -244,7 +244,7 @@ a {
   .site-footer {
     font-size: 0.9rem; } }
 
-.btn .start{
+.btn.start{
     background: #15866A;
     color: rgba(255,255,255,0.9);
     border: none;
