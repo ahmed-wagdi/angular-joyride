@@ -8,7 +8,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 	}
 	
 	$scope.open = function () {
-        var modal = $fancyModal.open({ template: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil mollitia dicta unde quas nobis iusto nemo distinctio, dolor inventore aperiam quo consequatur aspernatur vel, nam autem illo error quis.' });
+        var modal = $fancyModal.open({ template: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil mollitia dicta unde quas nobis iusto nemo distinctio, dolor inventore aperiam quo consequatur aspernatur vel, nam autem illo error quis.</p>' });
         modal.opened.then(function() {
 		  joyride.next();
 		});
