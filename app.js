@@ -44,6 +44,8 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 			function: $scope.open
 		},
 		{
+			type: "element",
+			selector: ".fancymodal",
 			title: "Joyride Demo",
 			content: "<p>You can open modals or change pages between steps</p>"
 		}
