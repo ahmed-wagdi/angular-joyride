@@ -3,7 +3,7 @@ var app = angular.module('angular-joyride', ['ngAnimate']);
 app.run(function($templateCache) {
   $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.steps[joyride.current].title" class="jr_title">{{joyride.steps[joyride.current].title}}</h4><div ng-if="joyride.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left-buttons"><a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a></div><div class="jr_right-buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
 });
-asd
+
 function removeClassByPrefix(el, prefix) {
     var regx = new RegExp('\\b' + prefix + '.*?\\b', 'g');
     el.className = el.className.replace(regx, '');
@@ -93,7 +93,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               //////// Joyride was opened
               if (show) {
                 appendJoyride();
-                scope.joyride.currentStep = scope.joyride.steps[scope.joyride.current];
+                
                 
                 $timeout(function(){
                   angular.element(document.querySelector('body')).addClass('jr_active');
@@ -145,7 +145,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
             else{
               scope.joyride.current--;
             }
-            scope.joyride.currentStep = scope.joyride.steps[scope.joyride.current];
+            
             
             setPos();
             if (scope.joyride.steps[scope.joyride.current].type == 'function') {
@@ -169,14 +169,18 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         var setPos = function(){
           $timeout(function(){
           removeClassByPrefix(joyrideContainer, "jr_pos_");
+          var step = scope.joyride.steps[scope.joyride.current];
+
+
           ///////////// If step type equals 'element' set position and styles
-          if (scope.joyride.steps[scope.joyride.current].type == 'element') {
+          
+          if (step.type == 'element') {
             angular.element(joyrideContainer).addClass('jr_element');
             if (document.querySelector(".jr_target")) {
               angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
             }
             
-            var jrElement = angular.element(document.querySelector(scope.joyride.steps[scope.joyride.current].selector));
+            var jrElement = angular.element(document.querySelector(step.selector));
             var position = getElementOffset(jrElement[0]);
             jrElement.addClass('jr_target');
 
@@ -184,7 +188,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
 
             /////////////// Check where the step should be positioned then change the position property accordingly 
-            var placement = scope.joyride.steps[scope.joyride.current].placement || 'bottom';
+            var placement = step.placement || 'bottom';
             angular.element(joyrideContainer).addClass('jr_pos_'+placement);
 
             if (placement === 'top' || placement === 'bottom') {
@@ -216,8 +220,10 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               position.top -= 20;
             }
 
+            if (step.scroll !== false) {
+              scrollToElement(position.top);  
+            }
             
-            scrollToElement(position.top);
             ////////Set joyride position
             joyrideContainer.style.left = position.left + 'px';
             joyrideContainer.style.top = position.top + 'px';
