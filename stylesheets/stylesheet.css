@@ -281,3 +281,7 @@ a {
 .main-content{
   text-align: center;
 }
+
+.fancymodal{
+  z-index: 100;
+}
