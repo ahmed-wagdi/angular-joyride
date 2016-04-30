@@ -247,7 +247,7 @@ a {
 .btn.start{
   cursor: pointer;
   background: #15866A;
-  color: rgba(255, 255, 255, 0.86);
+  color: rgba(255, 255, 255, 0.75);
   border: none;
   display: block;
   text-align: center;
@@ -257,10 +257,26 @@ a {
   font-size: 35px;
   font-weight: 100;
   font-family: Helvetica neue, "Open Sans";
-  box-shadow: 0 0px 0 rgba(0, 0, 0, 0.4);
-  transition: box-shadow .3s;
+  box-shadow: 0 0px 0 rgba(0, 0, 0, 0.5);
+  transition: box-shadow .3s, color .3s;
 }
 
 .btn.start:hover{
-  box-shadow: 0 0px 14px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+#title{
+  display: inline-block;
+}
+.jr_container .jr_title{
+  color: #159957
+}
+
+.jr_container .jr_button{
+  background: #159957;
+}
+
+.main-content{
+  text-align: center;
 }
