@@ -17,7 +17,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 		});
     };
 
-    var close = function () {
+    var closeModal = function () {
         $fancyModal.close();
     };
 
