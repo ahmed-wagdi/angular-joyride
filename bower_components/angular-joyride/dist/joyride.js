@@ -1,7 +1,7 @@
 (function(){
 var app = angular.module('angular-joyride', ['ngAnimate']);
 app.run(function($templateCache) {
-  $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4><div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left_buttons"><a class="jr_button jr_skip" ng-click="joyride.config.start = false">Skip</a></div><div class="jr_right_buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
+  $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4><div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left_buttons"><a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a></div><div class="jr_right_buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
 });
 
 function removeClassByPrefix(el, prefix) {
@@ -84,7 +84,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         }
  
         //////// Watching for change in the start variable
-          scope.$watch('joyride.config.start', function(show, oldShow) {
+          scope.$watch('joyride.start', function(show, oldShow) {
             if (show !== oldShow || show === true) {
 
               //////// Joyride was opened
@@ -116,7 +116,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
             if (val) {
 
               if (val == 'next' && scope.joyride.current == scope.joyride.config.steps.length-1) {
-                scope.joyride.config.start = false;
+                scope.joyride.start = false;
               }
 
               else if (val == 'prev' && scope.joyride.current == 0) {
