@@ -284,8 +284,8 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
     return {
       current : 0,
       transitionStep: false, 
+      start: false,
       config: {
-        start: false,
         overlay: true,
         template: false,
         steps : [],
