@@ -85,7 +85,7 @@ These should be used if you want to pause between steps to execute some code fir
 
 In the example below the modal should be open in the second step but it should be closed in the first and third step:
 ````
-joyride.steps = [
+joyride.config.steps = [
     {
       title : 'Step 1',
       content: "<p>This step is on the main page with the modal closed.</p>",
@@ -104,17 +104,18 @@ joyride.steps = [
       content: "<p>Last step is on the main page with the modal closed.</p>",
     }
   ];
+  
   // Make sure to call resume to let the joyride know it should continue
   function openModal(resume){
-      modal.open.then(function(){
-          resume();
-      });
+    modal.open.then(function(){
+        resume();
+    });
   }
   
   function closeModal(resume){
-      modal.close.then(function(){
-          resume();
-      });
+    modal.close.then(function(){
+        resume();
+    });
   }
 ````
 
@@ -139,45 +140,45 @@ $scope.go = function(index){
 
 
 ## Animations
-This directive relies on `ngAnimate` and the [$animate](https://docs.angularjs.org/api/ng/service/$animate) service for handling animation classes. By default the joyride has simple fade in/out animations, but you can customize them by using the `.jr-start` class for start/end animations and the `.jr-transition` for step transition animations:
+This directive relies on `ngAnimate` and the [$animate](https://docs.angularjs.org/api/ng/service/$animate) service for handling animation classes. By default the joyride has simple fade in/out animations, but you can customize them by using the `.jr_start` class for start/end animations and the `.jr_transition` for step transition animations:
 ````
-.jr-container{
+.jr_container{
     transition: opacity 0.3s, transform 0.3s
 }
 
 //////// START/END ANIMATIONS
-.jr-container.jr-start-add {
+.jr_container.jr_start-add {
   opacity: 0;
 }
-.jr-container.jr-start-add-active {
+.jr_container.jr_start-add-active {
   opacity: 1;
 }
 
-.jr-container.jr-start-remove {
+.jr_container.jr_start-remove {
   opacity: 1;
 }
-.jr-container.jr-start-remove-active {
+.jr_container.jr_start-remove-active {
   opacity: 0;
 }
 //////////// STEP TRANSITION ANIMATIONS
-.jr-container.jr-transition{
+.jr_container.jr_transition{
   opacity: 0;
 }
-.jr-container.jr-transition-add {
+.jr_container.jr_transition-add {
   opacity: 1;
   transform: translateY(0px);
 }
-.jr-container.jr-transition-add-active {
+.jr_container.jr_transition-add-active {
     opacity: 0;
     transform: translateY(-100px);
 }
 
-.jr-container.jr-transition-remove {
+.jr_container.jr_transition-remove {
     opacity: 0;
     transform: translateY(-100px);
 }
 
-.jr-container.jr-transition-remove-active {
+.jr_container.jr_transition-remove-active {
   opacity: 1;
     transform: translateY(0px);
 }
@@ -195,22 +196,22 @@ and in your controller set the `template` property to your template's id:
 joyride.template = 'myCustomTemplate.html'
 ````
 
-Your template must contain a div with the class `jr-container`, i would recommend copying the html of the default template and editing it, you can find the html below:
+Your template must contain a div with the class `jr_container`, i would recommend copying the html of the default template and editing it, you can find the html below:
 ````
 <script type="text/ng-template" id="myCustomTemplate.html">
-  <div class="jr-container" id="jr-step-{{joyride.current}}">
-    <div class="jr-step">
-      <h4 ng-if="joyride.steps[joyride.current].title" class="jr-title">Test1 {{joyride.steps[joyride.current].title}}</h4>
-      <div ng-if="joyride.steps[joyride.current].content" class="jr-content" ng-bind-html="joyride.steps[joyride.current].content | jr_trust"></div>
+  <div class="jr_container" id="jr_step_{{joyride.current}}">
+    <div class="jr_step">
+      <h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">Test1 {{joyride.config.steps[joyride.current].title}}</h4>
+      <div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div>
     </div>
-    <div class="jr-buttons">
-      <div class="jr-left-buttons">
-        <a class="jr-button jr-skip" ng-click="joyride.start = false">Skip</a>
+    <div class="jr_buttons">
+      <div class="jr_left_buttons">
+        <a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a>
       </div>
 
-      <div class="jr-right-buttons">
-        <a class="jr-button jr-prev" ng-click="joyride.prev()" ng-class="{'disabled' : joyride.current === 0}">Prev</a>
-        <a class="jr-button jr-next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.steps.length-1) ? 'Finish' : 'Next'"></a>
+      <div class="jr_right_buttons">
+        <a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{'disabled' : joyride.current === 0}">Prev</a>
+        <a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? 'Finish' : 'Next'"></a>
       </div>
     </div>
   </div>
