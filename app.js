@@ -34,6 +34,15 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 			},
 			{
 				type: "element",
+				selector: ".fancymodal",
+				title: "Joyride Demo",
+				content: "<p>You can open modals or change pages between steps</p>",
+				beforeStep: openModal,
+				afterStep: closeModal,
+				scroll: false
+			},
+			{
+				type: "element",
 				selector: "#button1",
 				title: "Joyride Demo",
 				content: "You can highlight elements on the page"
@@ -44,15 +53,6 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 				title: "Joyride Demo",
 				content: "You can change the placement of the joyride",
 				placement: 'left'
-			},
-			{
-				type: "element",
-				selector: ".fancymodal",
-				title: "Joyride Demo",
-				content: "<p>You can open modals or change pages between steps</p>",
-				beforeStep: openModal,
-				afterStep: closeModal,
-				scroll: false
 			}
 		]
 	}

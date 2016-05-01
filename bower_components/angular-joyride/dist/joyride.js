@@ -154,8 +154,9 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               setPos();
 
               scope.joyride.transitionStep = false;  
-              
-              scope.joyride.config.onStepChange();
+              if (typeof scope.joyride.config.onStepChange === "function") {
+                scope.joyride.config.onStepChange();
+              }
             }
 
 
