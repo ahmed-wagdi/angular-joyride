@@ -8,18 +8,19 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 		console.log(joyride);
 	}
 	console.log(joyride);
-	var openModal = function () {
+	var openModal = function (resume) {
         var modal = $fancyModal.open({ 
         	template: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil mollitia dicta unde quas nobis iusto nemo distinctio, dolor inventore aperiam quo consequatur aspernatur vel, nam autem illo error quis.</p>',
         	overlay: false
         });
         modal.opened.then(function() {
-		  joyride.next();
+		  resume();
 		});
     };
 
-    var closeModal = function () {
+    var closeModal = function (resume) {
         $fancyModal.close();
+        resume();
     };
 
 	joyride.config = {
