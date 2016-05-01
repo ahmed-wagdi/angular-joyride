@@ -129,7 +129,7 @@
 			color: gray;
 			margin: 0;
 			font-size: 15px;
-			border-bottom: 1px solid #F5F5F5;
+			border_bottom: 1px solid #F5F5F5;
 		}
 		.jr_content{
 			padding: 10px;
@@ -142,10 +142,10 @@
 			padding: 10px;
 			@include clearfix;
 		}
-		.jr_left-buttons{
+		.jr_left_buttons{
 			float: left;
 		}
-		.jr_right-buttons{
+		.jr_right_buttons{
 			float: right;
 			.jr_button:first-child{
 				margin-right: 5px;

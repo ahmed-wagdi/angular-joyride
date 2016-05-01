@@ -26,56 +26,42 @@ app.controller('MainCtrl', function($scope, joyrideService) {
 
   joyride.start = true;
   
-  joyride.steps = [
-    {
-      title: "Title 2",
-      content: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, quidem, quia mollitia harum tempora laudantium deserunt deleniti. Expedita, soluta, atque maxime minus commodi quaerat ipsum reiciendis veritatis eum laboriosam incidunt.</p><p>another example</p>'
-    },
-    {
-      type: 'element',
-      selector: "h1",
-      title: "Title 1",
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, quidem, quia mollitia harum tempora laudantium deserunt deleniti. Expedita, soluta, atque maxime minus commodi quaerat ipsum reiciendis veritatis eum laboriosam incidunt.',
-      placement: 'bottom'
-    }
-  ]
+  joyride.config = {
+    overlay: false,
+    onStepChange: function(){ // Code Here },
+    onStart: function(){ // Code Here },
+    onFinish: function(){ // Code Here },
+    steps : [
+      {
+        title: "Title 2",
+        content: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, quidem, quia mollitia harum tempora laudantium deserunt deleniti. Expedita, soluta, atque maxime minus commodi quaerat ipsum reiciendis veritatis eum laboriosam incidunt.</p><p>another example</p>'
+      },
+      {
+        type: 'element',
+        selector: "#title",
+        title: "Title 1",
+        content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus, quidem, quia mollitia harum tempora laudantium deserunt deleniti. Expedita, soluta, atque maxime minus commodi quaerat ipsum reiciendis veritatis eum laboriosam incidunt.',
+        placement: 'top'
+      }
+    ]
+  },
+
 });
 ````
 
-##### Starting the joyride
+#### Starting the joyride
 The `start` property can be used to trigger the joyride, setting it to `true` starts the joyride and `false` will end it.
 
+### Configuration
+- __steps -__ The steps to be used in the joyride, expects an array of objects.
+- __overlay -__ Display overlay, default is true.
+- __template -__ If you don't want to use the joyride's default template this can be used to add a custom template.
+- __onStepChange -__ Callback for step change.
+- __onStart -__ Callback for joyride start.
+- __onFinish -__ Callback for joyride end.
 
-## Methods
-| Method        | Description           
-| :------------- |:-------------
-| next     | Goes to the next step 
-| prev      | Goes to the previous step
-| goTo | Goes to a specific step, requires a number representing the index of the step     
-__Usage:__
-````
-$scope.customNext = function(){
-    joyride.next();
-}
 
-$scope.go = function(index){
-    joyride.goTo(index)
-}
-````
-## Events
-| Event        | Description           
-| :------------- |:-------------
-| onStepChange | Callback for step change
-| onStart | Function called when joyride starts
-| onFinish | Function called when joyride ends
-__Usage:__
-````
-joyride.onStepChange = function(){
-    // Do something
-}
-````
-
-### Joyride Steps
+## Joyride Steps
 The `steps` property accepts an array containing the steps of the joyride, each step should be an object with the following properties:
 
 | Property        | Type | Description   
@@ -89,25 +75,33 @@ The `steps` property accepts an array containing the steps of the joyride, each 
 | beforeStep | function | Function called before step transitions in, can pause joyride until some code executes
 | afterStep | function | Function called after step transitions out, can pause joyride until some code executes
 
-Example:
+#### Step Types
+There are 2 available types:
+* __Regular:__ The default type, appears as a regular pop-up.
+* __Element:__ Highlights a certain element in the DOM. Requires the `selector` property to work and can be positioned with the `placement` property with top, right, bottom or left.
+
+#### Before/after step callbacks
+These should be used if you want to pause between steps to execute some code first, for example opening a modal or going to a different page before going to the next step. Both these functions need to take a `resume` function  as the first paramater (you can rename it if you want) to be called when you want the joyride to resume.
+
+In the example below the modal should be open in the second step but it should be closed in the first and third step:
 ````
 joyride.steps = [
     {
       title : 'Step 1',
-      content: "<p>Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet.</p>",
+      content: "<p>This step is on the main page with the modal closed.</p>",
     },
     {
       type: 'element',
       selector: '.modal .button',
       title: "Step 2",
-      content: "Modal is now open!",
+      content: "This step should wait for the modal to open first!",
       beforeStep: openModal,
       afterStep: closeModal,
       scroll: false
     },
     {
-      title : 'Step 1',
-      content: "<p>Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet, Lorem ipsum dolor sit amet.</p>",
+      title : 'Step 3',
+      content: "<p>Last step is on the main page with the modal closed.</p>",
     }
   ];
   // Make sure to call resume to let the joyride know it should continue
@@ -124,10 +118,24 @@ joyride.steps = [
   }
 ````
 
-#### Step Types
-There are 2 available types:
-* __Regular:__ The default type, appears as a regular pop-up.
-* __Element:__ Highlights a certain element in the DOM. Requires the `selector` property to work and can be positioned with the `placement` property with top, right, bottom or left.
+### Methods
+| Method        | Description           
+| :------------- |:-------------
+| next     | Goes to the next step 
+| prev      | Goes to the previous step
+| goTo | Goes to a specific step, requires a number representing the index of the step     
+__Usage:__
+````
+$scope.customNext = function(){
+    joyride.next();
+}
+
+$scope.go = function(index){
+    joyride.goTo(index)
+}
+````
+
+
 
 
 ## Animations
