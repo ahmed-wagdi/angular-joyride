@@ -3,7 +3,7 @@ var app = angular.module('angular-joyride', ['ngAnimate']);
 app.run(function($templateCache) {
   $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.steps[joyride.current].title" class="jr_title">{{joyride.steps[joyride.current].title}}</h4><div ng-if="joyride.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left-buttons"><a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a></div><div class="jr_right-buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
 });
-
+asd
 function removeClassByPrefix(el, prefix) {
     var regx = new RegExp('\\b' + prefix + '.*?\\b', 'g');
     el.className = el.className.replace(regx, '');

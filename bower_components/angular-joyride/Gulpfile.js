@@ -1,11 +1,16 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var minify = require('gulp-minify');
+var rename = require('gulp-rename');
 
 gulp.task('styles', function() {
-    gulp.src('sass/**/*.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('./css/'));
+    gulp.src('sass/styles.scss')
+        .pipe(rename({basename: "joyride"}))
+        .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
+        .pipe(gulp.dest('./dist/'))
+        .pipe(rename({basename: "joyride", suffix: '.min'}))
+        .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
+        .pipe(gulp.dest('./dist/'));
 });
 
 //Watch task
