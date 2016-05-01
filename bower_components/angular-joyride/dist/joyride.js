@@ -68,7 +68,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         
         function appendJoyride(){
           var template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
-          if (scope.joyride.config.overlay) {
+          if (scope.joyride.config.overlay !== false) {
             template += overlay;
           }
           
