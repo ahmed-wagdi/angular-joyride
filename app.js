@@ -57,7 +57,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
         	overlay: false
         });
         modal.opened.then(function() {
-        	document.queryselector('fancymodal-content').onCSSAnimationEnd( function()
+        	document.querySelector('fancymodal-content').onCSSAnimationEnd( function()
 			{
 			    resume();
 				console.log(true);
