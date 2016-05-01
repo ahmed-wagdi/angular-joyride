@@ -15,6 +15,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
         });
         modal.opened.then(function() {
 		  resume();
+		  console.log(true);
 		});
     };
 
