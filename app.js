@@ -59,7 +59,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
         modal.opened.then(function() {
         	document.querySelector('.fancymodal-content').onCSSAnimationEnd( function()
 			{
-			    // resume();
+			    resume();
 				console.log(true);
 			});
 		  
