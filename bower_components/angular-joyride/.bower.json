@@ -23,11 +23,11 @@
     "sass",
     "js"
   ],
-  "_release": "93104a13d7",
+  "_release": "0703257812",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "93104a13d7263a4423a550d2d418b44d5de5b2bb"
+    "commit": "0703257812d3fc8e5b5d26474d53c7e1e580e907"
   },
   "_source": "https://github.com/ahmed-wagdi/angular-joyride.git",
   "_target": "*",
