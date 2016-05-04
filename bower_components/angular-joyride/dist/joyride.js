@@ -30,6 +30,7 @@ function getScroll(){
 }
 
 function scrollToElement(to) {
+  document.querySelector('body').style.overflow = "auto";
     var element = document.body,
       start = element.scrollTop,
         change = to - start,
@@ -51,6 +52,10 @@ function scrollToElement(to) {
           element.scrollTop = val;
           if(currentTime < duration) {
               setTimeout(animateScroll, increment);
+          }
+          else{
+            console.log('done');
+            document.querySelector('body').style.overflow = "hidden";
           }
       };
       animateScroll();
@@ -97,7 +102,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               if (show) {
                 appendJoyride();
                 
-                
+                document.querySelector('body').style.overflow = "hidden";
                 $timeout(function(){
                   angular.element(document.querySelector('body')).addClass('jr_active');
                   $animate.addClass(joyrideContainer, 'jr_start').then(scope.joyride.config.onStart);
@@ -112,6 +117,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
                 if (document.querySelector(".jr_target")) {
                   angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
                 }
+                document.querySelector('body').style.overflow = "auto";
               }
           }
         });
