@@ -1,7 +1,7 @@
 (function(){
 var app = angular.module('angular-joyride', ['ngAnimate']);
 app.run(function($templateCache) {
-  $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4><div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left_buttons"><a class="jr_button jr_skip" ng-click="joyride.config.start = false">Skip</a></div><div class="jr_right_buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
+  $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4><div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left_buttons"><a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a></div><div class="jr_right_buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
 });
 
 function removeClassByPrefix(el, prefix) {
@@ -57,7 +57,7 @@ function scrollToElement(to) {
   }
 }
 
-var joyrideDirective = function($animate, joyrideService, $compile, $templateCache, $timeout){
+var joyrideDirective = function($animate, joyrideService, $compile, $templateCache, $timeout, $window){
     return {
       restrict: 'E',
       scope: {},
@@ -65,10 +65,15 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         scope.joyride = joyrideService;
         var joyrideContainer;
         var overlay = '<div class="jr_overlay"></div>';
-        
+        angular.element($window).bind('resize', function(){
+          if (scope.joyride.start) {
+            setPos();
+          }
+       });
         function appendJoyride(){
           var template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
-          if (scope.joyride.config.overlay) {
+          console.log(template);
+          if (scope.joyride.config.overlay !== false) {
             template += overlay;
           }
           
@@ -76,6 +81,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
           var appendHtml = $compile(template)(scope);
           divElement.append(appendHtml);
           joyrideContainer = document.querySelector('.jr_container');
+          angular.element(joyrideContainer).append("<div class='triangle'></div>");
         }
         
         function removeJoyride(){
@@ -84,7 +90,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         }
  
         //////// Watching for change in the start variable
-          scope.$watch('joyride.config.start', function(show, oldShow) {
+          scope.$watch('joyride.start', function(show, oldShow) {
             if (show !== oldShow || show === true) {
 
               //////// Joyride was opened
@@ -116,7 +122,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
             if (val) {
 
               if (val == 'next' && scope.joyride.current == scope.joyride.config.steps.length-1) {
-                scope.joyride.config.start = false;
+                scope.joyride.start = false;
               }
 
               else if (val == 'prev' && scope.joyride.current == 0) {
@@ -154,8 +160,9 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               setPos();
 
               scope.joyride.transitionStep = false;  
-              
-              scope.joyride.config.onStepChange();
+              if (typeof scope.joyride.config.onStepChange === "function") {
+                scope.joyride.config.onStepChange();
+              }
             }
 
 
@@ -227,8 +234,34 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               }
               var jrWidth = joyrideContainer.clientWidth,
                   targetWidth = jrElement[0].clientWidth;
+              
+              // var leftOffset = Math.max(jrWidth, targetWidth) - Math.min(jrWidth, targetWidth)/2;
+              // position.left = Math.max(leftOffset, position.left) - Math.min(leftOffset, position.left);
+              position.left = ((position.left + targetWidth/2) - jrWidth/2 );
+              
+              if (position.left < 0) {
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.left = position.left + Math.abs((jrWidth - targetWidth + triangle.offsetWidth)/2)  + 'px';
+                triangle.style.right = "auto";
+                position.left = 0;
 
-              position.left = Math.abs(position.left - (jrWidth - targetWidth)/2);
+              }
+
+              else if((position.left + jrWidth) > angular.element($window).width()){
+                var tempPos = position.left + (jrWidth/2)
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.right = "auto";
+                position.left = angular.element($window).width() - jrWidth;
+                triangle.style.left = tempPos - position.left - triangle.offsetWidth / 2  + 'px';
+              }
+              
+              else{
+                console.log(position.left);
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.left = 0;
+                triangle.style.right = 0;
+              }
+              
             }
 
             else{
@@ -284,8 +317,8 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
     return {
       current : 0,
       transitionStep: false, 
+      start: false,
       config: {
-        start: false,
         overlay: true,
         template: false,
         steps : [],
@@ -319,6 +352,6 @@ app.filter('jr_trust', [
 ]);
 
 app.factory('joyrideService', [joyrideService]);
-app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateCache', '$timeout', joyrideDirective]);
+app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateCache', '$timeout', '$window', joyrideDirective]);
 
 })();
