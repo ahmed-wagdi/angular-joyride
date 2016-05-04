@@ -285,3 +285,8 @@ a {
 .fancymodal{
   z-index: 1002;
 }
+
+.fancymodal .btn{
+  background: #159957;
+  border: none;
+}

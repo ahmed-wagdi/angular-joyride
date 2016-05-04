@@ -53,7 +53,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 	console.log(joyride);
 	var openModal = function (resume) {
         var modal = $fancyModal.open({ 
-        	template: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil mollitia dicta unde quas nobis iusto nemo distinctio, dolor inventore aperiam quo consequatur aspernatur vel, nam autem illo error quis.</p>',
+        	template: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil mollitia dicta unde quas nobis iusto nemo distinctio, dolor inventore aperiam quo consequatur aspernatur vel, nam autem illo error quis.</p> <a class="btn blue">Button</a>',
         	overlay: false
         });
         modal.opened.then(function() {
@@ -83,7 +83,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 			},
 			{
 				type: "element",
-				selector: ".fancymodal",
+				selector: ".fancymodal .button",
 				title: "Joyride Demo",
 				content: "<p>You can open modals or change pages between steps</p>",
 				beforeStep: openModal,
