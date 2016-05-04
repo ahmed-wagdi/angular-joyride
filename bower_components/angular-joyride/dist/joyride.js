@@ -247,11 +247,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
               }
 
-              else if((position.left + jrWidth) > angular.element($window).width()){
+              else if((position.left + jrWidth) > $window.innerWidth){
                 var tempPos = position.left + (jrWidth/2)
                 var triangle = document.querySelector(".jr_container .triangle");
                 triangle.style.right = "auto";
-                position.left = angular.element($window).width() - jrWidth;
+                position.left = $window.innerWidth - jrWidth;
                 triangle.style.left = tempPos - position.left - triangle.offsetWidth / 2  + 'px';
               }
               
