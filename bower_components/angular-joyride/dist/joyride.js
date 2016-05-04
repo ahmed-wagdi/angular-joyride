@@ -57,7 +57,7 @@ function scrollToElement(to) {
   }
 }
 
-var joyrideDirective = function($animate, joyrideService, $compile, $templateCache, $timeout){
+var joyrideDirective = function($animate, joyrideService, $compile, $templateCache, $timeout, $window){
     return {
       restrict: 'E',
       scope: {},
@@ -65,9 +65,14 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         scope.joyride = joyrideService;
         var joyrideContainer;
         var overlay = '<div class="jr_overlay"></div>';
-        
+        angular.element($window).bind('resize', function(){
+          if (scope.joyride.start) {
+            setPos();
+          }
+       });
         function appendJoyride(){
           var template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
+          console.log(template);
           if (scope.joyride.config.overlay !== false) {
             template += overlay;
           }
@@ -76,6 +81,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
           var appendHtml = $compile(template)(scope);
           divElement.append(appendHtml);
           joyrideContainer = document.querySelector('.jr_container');
+          angular.element(joyrideContainer).append("<div class='triangle'></div>");
         }
         
         function removeJoyride(){
@@ -228,8 +234,34 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               }
               var jrWidth = joyrideContainer.clientWidth,
                   targetWidth = jrElement[0].clientWidth;
+              
+              // var leftOffset = Math.max(jrWidth, targetWidth) - Math.min(jrWidth, targetWidth)/2;
+              // position.left = Math.max(leftOffset, position.left) - Math.min(leftOffset, position.left);
+              position.left = ((position.left + targetWidth/2) - jrWidth/2 );
+              
+              if (position.left < 0) {
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.left = position.left + Math.abs((jrWidth - targetWidth + triangle.offsetWidth)/2)  + 'px';
+                triangle.style.right = "auto";
+                position.left = 0;
 
-              position.left = Math.abs(position.left - (jrWidth - targetWidth)/2);
+              }
+
+              else if((position.left + jrWidth) > angular.element($window).width()){
+                var tempPos = position.left + (jrWidth/2)
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.right = "auto";
+                position.left = angular.element($window).width() - jrWidth;
+                triangle.style.left = tempPos - position.left - triangle.offsetWidth / 2  + 'px';
+              }
+              
+              else{
+                console.log(position.left);
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.left = 0;
+                triangle.style.right = 0;
+              }
+              
             }
 
             else{
@@ -320,6 +352,6 @@ app.filter('jr_trust', [
 ]);
 
 app.factory('joyrideService', [joyrideService]);
-app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateCache', '$timeout', joyrideDirective]);
+app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateCache', '$timeout', '$window', joyrideDirective]);
 
 })();

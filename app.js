@@ -83,7 +83,7 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 			},
 			{
 				type: "element",
-				selector: ".fancymodal .button",
+				selector: ".fancymodal .btn",
 				title: "Joyride Demo",
 				content: "<p>You can open modals or change pages between steps</p>",
 				beforeStep: openModal,
