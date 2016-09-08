@@ -5,9 +5,10 @@
   "main": "js/joyride.js",
   "dependencies": {},
   "devDependencies": {
-    "gulp-minify": "0.0.11",
+    "gulp": "^3.9.1",
+    "gulp-minify": "0.0.14",
     "gulp-rename": "1.2.2",
-    "gulp-sass": "2.2.0"
+    "gulp-sass": "2.3.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,6 +23,9 @@
     "directive"
   ],
   "author": "Ahmed Wagdi",
+  "contributors": [
+    "Matt Grande <matt.grande@gmail.com>"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mattgrande/angular-joyride/issues"
