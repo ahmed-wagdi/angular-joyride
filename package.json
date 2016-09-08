@@ -1,0 +1,30 @@
+{
+  "name": "angular-joyride",
+  "version": "0.2.0",
+  "description": "A lightweight joyride directive for AngularJs",
+  "main": "js/joyride.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp-minify": "0.0.11",
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "2.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattgrande/angular-joyride.git"
+  },
+  "keywords": [
+    "joyride",
+    "angular",
+    "directive"
+  ],
+  "author": "Ahmed Wagdi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattgrande/angular-joyride/issues"
+  },
+  "homepage": "https://github.com/mattgrande/angular-joyride#readme"
+}
