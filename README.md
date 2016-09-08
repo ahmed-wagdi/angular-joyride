@@ -1,13 +1,14 @@
 # angular-joyride
 
-__Important:__ This directive is still in the testing phase.
-
 A simple joyride directive for angular. This is inspired by [ng-joyride](https://github.com/abhikmitra/ng-joyride) and works very similarly but with less dependencies. The only dependency is [ngAnimate](https://docs.angularjs.org/api/ngAnimate), no jquery or any other libraries required.
 
+This library was originally created by [Ahmed Wagdi](https://github.com/ahmed-wagdi) but, as he seems to no longer be maintaining it, has been taken over my [Matt Grande](https://github.com/mattgrande)
+
 ## Installing
-Install with bower:
+
+Install with npm:
 ```
-bower install angular-joyride
+npm install --save angular-joyride
 ```
  Inject `angular-joyride` and `ngAnimate` into your angular module:
 ```
@@ -25,7 +26,7 @@ app.controller('MainCtrl', function($scope, joyrideService) {
   var joyride = joyrideService;
 
   joyride.start = true;
-  
+
   joyride.config = {
     overlay: false,
     onStepChange: function(){ // Code Here },
@@ -64,10 +65,10 @@ The `start` property can be used to trigger the joyride, setting it to `true` st
 ## Joyride Steps
 The `steps` property accepts an array containing the steps of the joyride, each step should be an object with the following properties:
 
-| Property        | Type | Description   
+| Property        | Type | Description
 | :------------- |:------------- |:-------------
 | Type     | String | Type of step, default is "Regular"
-| Title      | String | Title of step   
+| Title      | String | Title of step
 | Content | String | Step content, can incude html tags
 | Selector | String | If type is set to "element" this is the selector used to find the element
 | Placement | String | If type is set to "element" determines the placement of the container, default is "bottom"
@@ -104,14 +105,14 @@ joyride.config.steps = [
       content: "<p>Last step is on the main page with the modal closed.</p>",
     }
   ];
-  
+
   // Make sure to call resume to let the joyride know it should continue
   function openModal(resume){
     modal.open.then(function(){
         resume();
     });
   }
-  
+
   function closeModal(resume){
     modal.close.then(function(){
         resume();
@@ -120,11 +121,11 @@ joyride.config.steps = [
 ````
 
 ### Methods
-| Method        | Description           
+| Method        | Description
 | :------------- |:-------------
-| next     | Goes to the next step 
+| next     | Goes to the next step
 | prev      | Goes to the previous step
-| goTo | Goes to a specific step, requires a number representing the index of the step     
+| goTo | Goes to a specific step, requires a number representing the index of the step
 __Usage:__
 ````
 $scope.customNext = function(){
@@ -188,7 +189,7 @@ This directive relies on `ngAnimate` and the [$animate](https://docs.angularjs.o
 If you want to use your own template for the joyride then include in your html a script tag similar to the following:
 ````
 <script type="text/ng-template" id="myCustomTemplate.html">
-    /// Template Html here    
+    /// Template Html here
 </script>
 ````
 and in your controller set the `template` property to your template's id:
