@@ -83,9 +83,9 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         function appendJoyride(){
           var appendHtml = $compile(template)(scope),
               currentStep = scope.joyride.config.steps[scope.joyride.current],
-              divElement = angular.element(document.querySelector(joyrideService.attachTo));
+              divElement = angular.element(document.querySelector('body'));
 
-          if (currentStep.type === 'element' && !currentStep.attachToBody) {
+          if (currentStep.type === 'element' && !currentStep.appendToBody) {
             var divElement = angular.element(document.querySelector(currentStep.selector));
 
 
@@ -252,7 +252,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
             var placement = step.placement || 'bottom';
             angular.element(joyrideContainer).addClass('jr_pos_'+placement);
 
-            if (currentStep.attachToBody){
+            if (currentStep.appendToBody){
               if (placement === 'top' || placement === 'bottom') {
                 if (placement === 'top') {
                   var height = joyrideContainer.clientHeight;
@@ -312,6 +312,8 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               // Set joyride position
               joyrideContainer.style.left = position.left + 'px';
               joyrideContainer.style.top = position.top + 'px';
+              joyrideContainer.style.right = 'auto';
+              joyrideContainer.style.bottom = 'auto';
 
               
             
@@ -354,7 +356,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
       current : 0,
       transitionStep: true, 
       start: false,
-      attachTo: 'body',
       config: {
         overlay: true,
         template: false,

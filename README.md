@@ -66,14 +66,14 @@ The `steps` property accepts an array containing the steps of the joyride, each 
 
 | Property        | Type | Description   
 | :------------- |:------------- |:-------------
-| Type     | String | Type of step, default is "Regular"
-| Title      | String | Title of step   
-| Content | String | Step content, can incude html tags
-| Selector | String | If type is set to "element" this is the selector used to find the element
-| Placement | String | If type is set to "element" determines the placement of the container, default is "bottom"
-| Scroll | boolean | If type is set to "element" can disable/enable scrolling to element, default is true.
+| type     | String | Type of step, default is "Regular"
+| title      | String | Title of step   
+| content | String | Step content, can incude html tags
+| selector | String | If type is set to "element" this is the selector used to find the element
+| placement | String | If type is set to "element" determines the placement of the container, default is "bottom"
+| appendToBody | boolean | If type is set to "element" setting to true appends the joyride to the body instead of the element the joyride is pointing to, default is false
+| scroll | boolean | If type is set to "element" can disable/enable scrolling to element, default is true
 | beforeStep | function | Function called before step transitions in, can pause joyride until some code executes
-| afterStep | function | Function called after step transitions out, can pause joyride until some code executes
 
 #### Step Types
 There are 2 available types:
