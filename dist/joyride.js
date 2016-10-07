@@ -1,9 +1,13 @@
 (function(){
 var app = angular.module('angular-joyride', ['ngAnimate']);
-app.run(function($templateCache) {
-  $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4><div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left_buttons"><a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a></div><div class="jr_right_buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
-});
 
+////////******* Add default template to template cache *******//////////
+app.run(['$templateCache', function($templateCache) {
+  $templateCache.put('ngJoyrideDefault.html', '<div class="jr_container" id="jr_{{joyride.current}}"><div class="jr_step"><h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4><div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div></div><div class="jr_buttons"><div class="jr_left_buttons"><a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a></div><div class="jr_right_buttons"><a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{\'disabled\' : joyride.current === 0}">Prev</a><a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? \'Finish\' : \'Next\'"></a></div></div></div>');
+}]);
+////////////**********////////////////
+
+////////******* Utility functions *******//////////
 function removeClassByPrefix(el, prefix) {
     var regx = new RegExp('\\b' + prefix + '.*?\\b', 'g');
     el.className = el.className.replace(regx, '');
@@ -57,36 +61,46 @@ function scrollToElement(to) {
   }
 }
 
+////////******* Joyride Directive *******//////////
 var joyrideDirective = function($animate, joyrideService, $compile, $templateCache, $timeout, $window){
     return {
       restrict: 'E',
       scope: {},
       link: function(scope, element, attrs){
+        
+        
         scope.joyride = joyrideService;
-        var joyrideContainer;
-        var overlay = '<div class="jr_overlay"></div>';
+        var joyrideContainer,
+            overlay = '<div class="jr_overlay"></div>',
+            template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
+
         angular.element($window).bind('resize', function(){
           if (scope.joyride.start) {
             setPos();
           }
-       });
+        });
+
         function appendJoyride(){
-          var template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
-          console.log(template);
-          if (scope.joyride.config.overlay !== false) {
-            template += overlay;
+          var appendHtml = $compile(template)(scope),
+              currentStep = scope.joyride.config.steps[scope.joyride.current],
+              divElement = angular.element(document.querySelector(joyrideService.attachTo));
+
+          if (currentStep.type === 'element' && !currentStep.attachToBody) {
+            var divElement = angular.element(document.querySelector(currentStep.selector));
+
+
           }
           
-          var divElement = angular.element(document.querySelector('body'));
-          var appendHtml = $compile(template)(scope);
           divElement.append(appendHtml);
           joyrideContainer = document.querySelector('.jr_container');
           angular.element(joyrideContainer).append("<div class='triangle'></div>");
+          if (scope.joyride.start) {
+            angular.element(joyrideContainer).addClass('jr_start');
+          }
         }
         
         function removeJoyride(){
           angular.element(joyrideContainer).remove();
-          angular.element(document.querySelector('.jr_overlay')).remove();
         }
  
         //////// Watching for change in the start variable
@@ -97,10 +111,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               if (show) {
                 appendJoyride();
                 
-                
                 $timeout(function(){
                   angular.element(document.querySelector('body')).addClass('jr_active');
                   $animate.addClass(joyrideContainer, 'jr_start').then(scope.joyride.config.onStart);
+                  scope.joyride.transitionStep = false;
+                  angular.element(document.querySelector('body')).append(overlay);
                   setPos();
                 }, 0);
               }
@@ -109,6 +124,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               if (!show) {
                 angular.element(document.querySelector('body')).removeClass('jr_active');
                 $animate.removeClass(joyrideContainer, 'jr_start').then(joyrideEnded);
+                angular.element(document.querySelector('.jr_overlay')).remove()
                 if (document.querySelector(".jr_target")) {
                   angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
                 }
@@ -130,17 +146,20 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               }
 
               else{
-                $animate.addClass(joyrideContainer, 'jr_transition').then(beforeTransition);
+
+                $animate.removeClass(joyrideContainer, 'jr_transition').then(beforeTransition);
               }
               
             }
             if (!val) {
-              $animate.removeClass(joyrideContainer, 'jr_transition');
+
+
+              $animate.addClass(joyrideContainer, 'jr_transition');
             }
           }
         });
 
-        // check for afterStep function before going to next step
+        ////// check for afterStep function before going to next step
         function beforeTransition(){
           if (typeof scope.joyride.config.steps[scope.joyride.current].afterStep === "function") {
             scope.joyride.config.steps[scope.joyride.current].afterStep(afterTransition);
@@ -152,17 +171,22 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         }
 
 
-        // Set position and current step after joyride transitions out
+        ////// Set position and current step after joyride transitions out
         function afterTransition(){
 
-          // transitions in the next step
+          ////// transitions in the next step
             function transitionIn(){
-              setPos();
+              
 
               scope.joyride.transitionStep = false;  
               if (typeof scope.joyride.config.onStepChange === "function") {
                 scope.joyride.config.onStepChange();
               }
+              removeJoyride();
+              appendJoyride();
+              $timeout(function(){
+                setPos();
+              })
             }
 
 
@@ -173,17 +197,20 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               scope.joyride.current--;
             }
 
+            
+            
+
             // if step contains a beforeStep function
             // execute it first before transitioning in
             // else just transition in
+              if (typeof scope.joyride.config.steps[scope.joyride.current].beforeStep === "function") {
+                scope.joyride.config.steps[scope.joyride.current].beforeStep(transitionIn);
+              }
 
-            if (typeof scope.joyride.config.steps[scope.joyride.current].beforeStep === "function") {
-              scope.joyride.config.steps[scope.joyride.current].beforeStep(transitionIn);
-            }
-
-            else{
-              transitionIn();
-            }
+              else{
+                transitionIn();
+              }
+            
             
             
         }
@@ -198,14 +225,17 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
         // Handles joyride positioning
         var setPos = function(){
+          var currentStep = scope.joyride.config.steps[scope.joyride.current];
+
           $timeout(function(){
-          removeClassByPrefix(joyrideContainer, "jr_pos_");
-          var step = scope.joyride.config.steps[scope.joyride.current];
+
+            removeClassByPrefix(joyrideContainer, "jr_pos_");
+            var step = scope.joyride.config.steps[scope.joyride.current];
 
 
           // If step type equals 'element' set position and styles
-          
           if (step.type == 'element') {
+            joyrideContainer.removeAttribute('style');
             angular.element(joyrideContainer).addClass('jr_element');
             if (document.querySelector(".jr_target")) {
               angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
@@ -222,76 +252,81 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
             var placement = step.placement || 'bottom';
             angular.element(joyrideContainer).addClass('jr_pos_'+placement);
 
-            if (placement === 'top' || placement === 'bottom') {
-              if (placement === 'top') {
-                var height = joyrideContainer.clientHeight;
-                position.top -= height + 20;
+            if (currentStep.attachToBody){
+              if (placement === 'top' || placement === 'bottom') {
+                if (placement === 'top') {
+                  var height = joyrideContainer.clientHeight;
+                  position.top -= height + 20;
+                }
+
+                else {
+                  var height = jrElement[0].clientHeight;
+                  position.top += height + 20;
+                }
+                var jrWidth = joyrideContainer.clientWidth,
+                    targetWidth = jrElement[0].clientWidth;
+                
+                // var leftOffset = Math.max(jrWidth, targetWidth) - Math.min(jrWidth, targetWidth)/2;
+                // position.left = Math.max(leftOffset, position.left) - Math.min(leftOffset, position.left);
+                position.left = ((position.left + targetWidth/2) - jrWidth/2 );
+                
+                if (position.left < 0) {
+                  var triangle = document.querySelector(".jr_container .triangle");
+                  triangle.style.left = position.left + Math.abs((jrWidth - targetWidth + triangle.offsetWidth)/2)  + 'px';
+                  triangle.style.right = "auto";
+                  position.left = 0;
+
+                }
+
+                else if((position.left + jrWidth) > angular.element($window).width()){
+                  var tempPos = position.left + (jrWidth/2)
+                  var triangle = document.querySelector(".jr_container .triangle");
+                  triangle.style.right = "auto";
+                  position.left = angular.element($window).width() - jrWidth;
+                  triangle.style.left = tempPos - position.left - triangle.offsetWidth / 2  + 'px';
+                }
+                
+                else{
+
+                  var triangle = document.querySelector(".jr_container .triangle");
+                  triangle.style.left = 0;
+                  triangle.style.right = 0;
+                }
+                
               }
 
-              else {
-                var height = jrElement[0].clientHeight;
-                position.top += height + 20;
-              }
-              var jrWidth = joyrideContainer.clientWidth,
-                  targetWidth = jrElement[0].clientWidth;
-              
-              // var leftOffset = Math.max(jrWidth, targetWidth) - Math.min(jrWidth, targetWidth)/2;
-              // position.left = Math.max(leftOffset, position.left) - Math.min(leftOffset, position.left);
-              position.left = ((position.left + targetWidth/2) - jrWidth/2 );
-              
-              if (position.left < 0) {
-                var triangle = document.querySelector(".jr_container .triangle");
-                triangle.style.left = position.left + Math.abs((jrWidth - targetWidth + triangle.offsetWidth)/2)  + 'px';
-                triangle.style.right = "auto";
-                position.left = 0;
-
-              }
-
-              else if((position.left + jrWidth) > angular.element($window).width()){
-                var tempPos = position.left + (jrWidth/2)
-                var triangle = document.querySelector(".jr_container .triangle");
-                triangle.style.right = "auto";
-                position.left = angular.element($window).width() - jrWidth;
-                triangle.style.left = tempPos - position.left - triangle.offsetWidth / 2  + 'px';
-              }
-              
               else{
-                console.log(position.left);
-                var triangle = document.querySelector(".jr_container .triangle");
-                triangle.style.left = 0;
-                triangle.style.right = 0;
+                if (placement === 'left') {
+                  var width = joyrideContainer.clientWidth;
+                  position.left -= width + 20;
+
+                }
+
+                else {
+                  var width = jrElement[0].clientWidth;
+                  position.left += width + 20;
+                }
+                position.top -= 20;
               }
+
+              // Set joyride position
+              joyrideContainer.style.left = position.left + 'px';
+              joyrideContainer.style.top = position.top + 'px';
+
               
-            }
-
-            else{
-              if (placement === 'left') {
-                var width = joyrideContainer.clientWidth;
-                position.left -= width + 20;
-
-              }
-
-              else {
-                var width = jrElement[0].clientWidth;
-                position.left += width + 20;
-              }
-              position.top -= 20;
-            }
-
-            if (step.scroll !== false) {
-              if (placement === 'bottom') {
-                scrollToElement(position.top - jrElement[0].clientHeight);
-              }
-              else{
-                scrollToElement(position.top);
-              }
-              
-            }
             
-            // Set joyride position
-            joyrideContainer.style.left = position.left + 'px';
-            joyrideContainer.style.top = position.top + 'px';
+            }
 
+            // Scroll to element if scroll is enabled
+              if (step.scroll !== false) {
+                if (placement === 'bottom') {
+                  scrollToElement(position.top - jrElement[0].clientHeight);
+                }
+                else{
+                  scrollToElement(position.top);
+                }
+                
+              }
           }
 
 
@@ -313,11 +348,13 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
   }
 
+////////******* Joyride Service *******//////////
   var joyrideService = function(){
     return {
       current : 0,
-      transitionStep: false, 
+      transitionStep: true, 
       start: false,
+      attachTo: 'body',
       config: {
         overlay: true,
         template: false,

@@ -12,6 +12,7 @@
 		box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 		border: 1px solid #FFFFFF;
 		transition: opacity .3s, transform .3s;
+		opacity: 0;
 
 		&:not(.jr_element){
 			left: 0; 
@@ -20,7 +21,7 @@
 		}
 
 		&.jr_element{
-			max-width: 300px;
+			width: 300px;
 			&:after{
 				content: "";
 				position: absolute;
@@ -28,6 +29,10 @@
 				
 			}
 			&.jr_pos_bottom{
+				top: calc(100% + 15px);
+			    left: -9999px;
+			    right: -9999px;
+			    margin: auto;
 				&:after{
 					left: 0;
 					right: 0;
@@ -36,13 +41,20 @@
 				}
 			}
 			&.jr_pos_top{
+			    bottom: calc(100% + 15px);
+			    left: -9999px;
+			    right: -9999px;
+			    margin: auto;
 				&:after{
 					top: 100%;
 					@include triangle(25px, white, down);
 				}
 			}
 			&.jr_pos_left{
-				
+				top: 50%;
+				@include transform(translateY(-50%));
+			    right: calc(100% + 15px);
+			    margin: auto;
 				&:after{
 					left: 100%;
 					top: 20px;
@@ -50,7 +62,9 @@
 				}
 			}
 			&.jr_pos_right{
-				
+				top: 50%;
+				@include transform(translateY(-50%));
+			    left: calc(100% + 15px);
 				&:after{
 					right: 100%;
 					top: 20px;
@@ -100,24 +114,23 @@
 
 		//////////// STEP TRANSITION ANIMATIONS
 		&.jr_transition{
-			opacity: 0;
+			opacity: 1;
 		}
-		&.jr_transition-add {
-		    
+		&.jr_transition-remove {
 			opacity: 1;
 			@include transform(translateY(0px));
 		}
-		&.jr_transition-add-active {
-		    @include transform(translateY(-100px));
-		    opacity: 0;
-		}
-
-		&.jr_transition-remove {
-		    opacity: 0;
-		    @include transform(translateY(-100px));
-		}
-
 		&.jr_transition-remove-active {
+		    @include transform(translateY(-100px));
+		    opacity: 0;
+		}
+
+		&.jr_transition-add {
+		    opacity: 0;
+		    @include transform(translateY(-100px));
+		}
+
+		&.jr_transition-add-active {
 			opacity: 1;
 		    @include transform(translateY(0px));
 		}
