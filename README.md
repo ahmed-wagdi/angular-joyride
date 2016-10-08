@@ -1,7 +1,5 @@
 # angular-joyride
 
-__Important:__ This directive is still in the testing phase.
-
 A simple joyride directive for angular. This is inspired by [ng-joyride](https://github.com/abhikmitra/ng-joyride) and works very similarly but with less dependencies. The only dependency is [ngAnimate](https://docs.angularjs.org/api/ngAnimate), no jquery or any other libraries required.
 
 ## Installing
@@ -198,10 +196,11 @@ joyride.template = 'myCustomTemplate.html'
 
 Your template must contain a div with the class `jr_container`, i would recommend copying the html of the default template and editing it, you can find the html below:
 ````
+
 <script type="text/ng-template" id="myCustomTemplate.html">
   <div class="jr_container" id="jr_step_{{joyride.current}}">
     <div class="jr_step">
-      <h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">Test1 {{joyride.config.steps[joyride.current].title}}</h4>
+      <h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4>
       <div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div>
     </div>
     <div class="jr_buttons">
