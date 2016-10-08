@@ -221,7 +221,9 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
           removeJoyride();
           scope.joyride.current = 0;
           scope.joyride.transitionStep = true;
-          scope.joyride.config.onFinish();
+          if (typeof scope.joyride.config.onFinish === "function") {
+            scope.joyride.config.onFinish();
+          }
         }
 
         // Handles joyride positioning
