@@ -278,6 +278,10 @@ a {
   background: #159957;
 }
 
+.jr_container .jr_button.disabled{
+  background: #e6e5e5;
+}
+
 .main-content{
   text-align: center;
 }
@@ -289,4 +293,8 @@ a {
 .fancymodal .btn{
   background: #159957;
   border: none;
+}
+
+.jr_container, .jr_container p {
+  color: #606c71;
 }

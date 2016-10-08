@@ -72,6 +72,9 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
     };
 
 	joyride.config = {
+		onFinish: function(){
+			alert('done');
+		},
 		steps : [
 			{
 				title: "Joyride Demo",
