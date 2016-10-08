@@ -12,7 +12,7 @@
 		box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 		border: 1px solid #FFFFFF;
 		transition: opacity .3s, transform .3s;
-		opacity: 0;
+		
 
 		&:not(.jr_element){
 			left: 0; 
@@ -96,6 +96,7 @@
 		//////// START/END ANIMATIONS
 		&.jr_start{
 			display: block;
+			opacity: 1;
 		}
 		&.jr_start-remove {
 		    display: block;
@@ -113,24 +114,24 @@
 		}
 
 		//////////// STEP TRANSITION ANIMATIONS
-		&.jr_transition{
-			opacity: 1;
-		}
-		&.jr_transition-remove {
+		// &.jr_transition{
+		// 	opacity: 0;
+		// }
+		&.jr_transition-add {
 			opacity: 1;
 			@include transform(translateY(0px));
 		}
-		&.jr_transition-remove-active {
-		    @include transform(translateY(-100px));
-		    opacity: 0;
-		}
-
-		&.jr_transition-add {
-		    opacity: 0;
-		    @include transform(translateY(-100px));
-		}
-
 		&.jr_transition-add-active {
+		    @include transform(translateY(-100px));
+		    opacity: 0;
+		}
+
+		&.jr_transition-remove {
+		    opacity: 0;
+		    @include transform(translateY(-100px));
+		}
+
+		&.jr_transition-remove-active {
 			opacity: 1;
 		    @include transform(translateY(0px));
 		}

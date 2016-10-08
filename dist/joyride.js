@@ -62,7 +62,7 @@ function scrollToElement(to) {
 }
 
 ////////******* Joyride Directive *******//////////
-var joyrideDirective = function($animate, joyrideService, $compile, $templateCache, $timeout, $window){
+var joyrideDirective = function($animate, joyrideService, $compile, $templateRequest, $timeout, $window){
     return {
       restrict: 'E',
       scope: {},
@@ -72,7 +72,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         scope.joyride = joyrideService;
         var joyrideContainer,
             overlay = '<div class="jr_overlay"></div>',
-            template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
+            template = $templateRequest(scope.joyride.config.template) || $templateRequest('ngJoyrideDefault.html');
 
         angular.element($window).bind('resize', function(){
           if (scope.joyride.start) {
@@ -390,6 +390,6 @@ app.filter('jr_trust', [
 ]);
 
 app.factory('joyrideService', [joyrideService]);
-app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateCache', '$timeout', '$window', joyrideDirective]);
+app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateRequest', '$timeout', '$window', joyrideDirective]);
 
 })();
