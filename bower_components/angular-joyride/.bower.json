@@ -1,5 +1,6 @@
 {
   "name": "angular-joyride",
+  "version": "1.0.0",
   "homepage": "https://github.com/ahmed-wagdi/angular-joyride",
   "description": "A lightweight joyride directive for AngularJs",
   "main": "dist/joyride.js",
@@ -23,14 +24,14 @@
     "sass",
     "js"
   ],
-  "_release": "765c7e9a65",
+  "_release": "1.0.0",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "765c7e9a658eaa9856c44bba310897789a2491cd"
+    "type": "version",
+    "tag": "v1.0.0",
+    "commit": "9764ee81124f6fb7406231334916a43c3245cb78"
   },
   "_source": "https://github.com/ahmed-wagdi/angular-joyride.git",
-  "_target": "*",
+  "_target": "^1.0.0",
   "_originalSource": "angular-joyride",
   "_direct": true
 }
