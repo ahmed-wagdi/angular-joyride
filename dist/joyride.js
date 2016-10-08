@@ -80,7 +80,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         });
 
         function appendJoyride(){
-
           var appendHtml = $compile(template)(scope),
               currentStep = scope.joyride.config.steps[scope.joyride.current],
               divElement = angular.element(document.querySelector('body'));
@@ -112,13 +111,22 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               //////// Joyride was opened
               if (show) {
                 template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
-                appendJoyride();
-                $timeout(function(){
-                  angular.element(document.querySelector('body')).addClass('jr_active');
-                  $animate.addClass(joyrideContainer, 'jr_start').then(scope.joyride.config.onStart);
-                  angular.element(document.querySelector('body')).append(overlay);
-                  setPos();
-                }, 0);
+                angular.element(document.querySelector('body')).append(overlay);
+                angular.element(document.querySelector('body')).addClass('jr_active');
+                function start(){
+                  appendJoyride();
+                    $animate.addClass(joyrideContainer, 'jr_start').then(scope.joyride.config.onStart);
+                    setPos();
+                }
+
+                if (typeof scope.joyride.config.steps[scope.joyride.current].beforeStep === "function") {
+                  scope.joyride.config.steps[scope.joyride.current].beforeStep(start);
+                }
+
+                else{
+                  start();
+                }
+
               }
 
               ////////// Joyride was closed
