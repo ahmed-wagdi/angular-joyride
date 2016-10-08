@@ -296,6 +296,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               }
 
               else{
+                var jrHeight = joyrideContainer.clientHeight,
+                    targetHeight = jrElement[0].clientHeight;
+                // var leftOffset = Math.max(jrWidth, targetWidth) - Math.min(jrWidth, targetWidth)/2;
+                // position.left = Math.max(leftOffset, position.left) - Math.min(leftOffset, position.left);
+                position.top = ((position.top + targetHeight/2) - jrHeight/2 );
                 if (placement === 'left') {
                   var width = joyrideContainer.clientWidth;
                   position.left -= width + 20;
@@ -306,7 +311,8 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
                   var width = jrElement[0].clientWidth;
                   position.left += width + 20;
                 }
-                position.top -= 20;
+                // position.top -= 20;
+                console.log(position);
               }
 
               // Set joyride position
@@ -314,6 +320,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               joyrideContainer.style.top = position.top + 'px';
               joyrideContainer.style.right = 'auto';
               joyrideContainer.style.bottom = 'auto';
+              joyrideContainer.style.transform = 'none';
 
               
             

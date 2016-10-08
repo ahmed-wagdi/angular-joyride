@@ -73,7 +73,9 @@
 
 .jr_container.jr_element.jr_pos_left:after {
   left: 100%;
-  top: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   height: 0;
   width: 0;
   border-bottom: 12.5px solid transparent;
@@ -93,7 +95,9 @@
 
 .jr_container.jr_element.jr_pos_right:after {
   right: 100%;
-  top: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   height: 0;
   width: 0;
   border-bottom: 12.5px solid transparent;
@@ -146,6 +150,10 @@
 
 .jr_container.jr_start-add-active {
   opacity: 1;
+}
+
+.jr_container.jr_transition {
+  opacity: 0;
 }
 
 .jr_container.jr_transition-add {
