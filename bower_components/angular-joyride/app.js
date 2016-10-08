@@ -7,15 +7,22 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 		joyride.start = true;	
 	}
 	
-	$scope.open = function () {
-        var modal = $fancyModal.open({ 
-        	template: '<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil mollitia dicta unde quas nobis iusto nemo distinctio, dolor inventore aperiam quo consequatur aspernatur vel, nam autem illo error quis.</p>',
-        	overlay: false
-        });
-        modal.opened.then(function() {
-		  joyride.next();
-		});
-    };
+	function openModal(resume){
+		modal = $fancyModal.open({ 
+			template: '<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus iusto id voluptatem eum beatae sunt quod dolorem voluptates ducimus tenetur hic, labore assumenda voluptate quam nisi alias provident, nam? Animi! <a class="button">Click</a></div>',
+			overlay: false
+		}).opened.then(function(){
+			$('.fancymodal .fancymodal-content-opening').one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(){
+				resume();
+			});
+			
+		})
+	}
+
+	function closeModal(resume){
+		$fancyModal.close();
+		resume();
+	}
 
 	joyride.steps = [
 		{
@@ -24,20 +31,23 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 		},
 		{
 			title: "Joyride Demo",
-			content: "This can be used to provide a step by step walkthrough of your website."
+			content: "This can be used to provide a step by step walkthrough of your website.",
+			beforeStep: closeModal
 		},
 		{
 			type: "element",
 			selector: "#button1",
 			title: "Joyride Demo",
-			content: "You can highlight elements on the page"
+			content: "You can highlight elements on the page",
+			beforeStep: openModal
 		},
 		{
 			type: "element",
 			selector: "#title",
 			title: "Joyride Demo",
 			content: "You can change the placement of the joyride",
-			placement: 'left'
+			placement: 'left',
+			beforeStep: closeModal
 		},
 		{
 			type: "function",

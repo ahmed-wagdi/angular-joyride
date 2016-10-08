@@ -147,7 +147,9 @@
 .jr_container.jr_start-add-active {
   opacity: 1;
 }
-
+.jr_container.jr_transition{
+  opacity: 0;
+}
 .jr_container.jr_transition-add {
   opacity: 1;
   -webkit-transform: translateY(0px);
