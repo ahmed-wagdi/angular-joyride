@@ -68,11 +68,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
       scope: {},
       link: function(scope, element, attrs){
         
-        
         scope.joyride = joyrideService;
         var joyrideContainer,
             overlay = '<div class="jr_overlay"></div>',
-            template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
+            template;
+
         angular.element($window).bind('resize', function(){
           if (scope.joyride.start) {
             setPos();
@@ -80,10 +80,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
         });
 
         function appendJoyride(){
+
           var appendHtml = $compile(template)(scope),
               currentStep = scope.joyride.config.steps[scope.joyride.current],
               divElement = angular.element(document.querySelector('body'));
-          console.log(appendHtml);
+          
           if (currentStep.type === 'element' && !currentStep.appendToBody) {
             var divElement = angular.element(document.querySelector(currentStep.selector));
           }
@@ -91,12 +92,13 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
           divElement.append(appendHtml);
           joyrideContainer = document.querySelector('.jr_container');
           angular.element(joyrideContainer).append("<div class='triangle'></div>");
+
           if (scope.joyride.start) {
-            // angular.element(joyrideContainer);
             if (!scope.joyride.transitionStep) {
               angular.element(joyrideContainer).addClass('jr_start').addClass('jr_transition');
             }
           }
+          
         }
         
         function removeJoyride(){
@@ -109,12 +111,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
               //////// Joyride was opened
               if (show) {
+                template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
                 appendJoyride();
-                
                 $timeout(function(){
                   angular.element(document.querySelector('body')).addClass('jr_active');
                   $animate.addClass(joyrideContainer, 'jr_start').then(scope.joyride.config.onStart);
-                  // scope.joyride.transitionStep = false;
                   angular.element(document.querySelector('body')).append(overlay);
                   setPos();
                 }, 0);
@@ -171,7 +172,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
           ////// transitions in the next step
             function transitionIn(){
-              
 
               scope.joyride.transitionStep = false;  
               if (typeof scope.joyride.config.onStepChange === "function") {
@@ -192,8 +192,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               scope.joyride.current--;
             }
 
-            
-            
 
             // if step contains a beforeStep function
             // execute it first before transitioning in
@@ -205,8 +203,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               else{
                 transitionIn();
               }
-            
-            
             
         }
 
@@ -242,7 +238,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
             var position = getElementOffset(jrElement[0]);
             jrElement.addClass('jr_target');
 
-            
 
 
             // Check where the step should be positioned then change the position property accordingly 
