@@ -30,16 +30,16 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 			content: "<p>Welcome to the joyride demo!</p><p>This is a simple joyride directive built to have minimal dependencies.</p>"
 		},
 		{
-			title: "Joyride Demo",
-			content: "This can be used to provide a step by step walkthrough of your website.",
-			beforeStep: closeModal
-		},
-		{
 			type: "element",
 			selector: "#button1",
 			title: "Joyride Demo",
 			content: "You can highlight elements on the page",
 			beforeStep: openModal
+		},
+		{
+			title: "Joyride Demo",
+			content: "This can be used to provide a step by step walkthrough of your website.",
+			beforeStep: closeModal
 		},
 		{
 			type: "element",

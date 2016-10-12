@@ -66,6 +66,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
     return {
       restrict: 'E',
       scope: {},
+      template: '<div class="jr_overlay"></div>',
       link: function(scope, element, attrs){
         
         scope.joyride = joyrideService;
@@ -111,7 +112,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               //////// Joyride was opened
               if (show) {
                 template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
-                angular.element(document.querySelector('body')).append(overlay);
+                // angular.element(document.querySelector('body')).append(overlay);
                 angular.element(document.querySelector('body')).addClass('jr_active');
                 function start(){
                   appendJoyride();
@@ -216,7 +217,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
         // Reset variables after joyride ends
         var joyrideEnded = function(){
-          angular.element(document.querySelector('.jr_overlay')).remove()
+          // angular.element(document.querySelector('.jr_overlay')).remove()
           angular.element(document.querySelector('body')).removeClass('jr_active');
           removeJoyride();
           scope.joyride.current = 0;
