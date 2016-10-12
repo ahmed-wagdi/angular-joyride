@@ -2,6 +2,8 @@
 
 A simple joyride directive for angular. This is inspired by [ng-joyride](https://github.com/abhikmitra/ng-joyride) and works very similarly but with less dependencies. The only dependency is [ngAnimate](https://docs.angularjs.org/api/ngAnimate), no jquery or any other libraries required.
 
+## [Demo](http://ahmed-wagdi.github.io/angular-joyride)
+
 ## Installing
 Install with bower:
 ```
