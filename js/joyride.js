@@ -66,11 +66,12 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
     return {
       restrict: 'E',
       scope: {},
+      template: '<div class="jr_overlay"></div>',
       link: function(scope, element, attrs){
         
         scope.joyride = joyrideService;
         var joyrideContainer,
-            overlay = '<div class="jr_overlay"></div>',
+            // overlay = '<div class="jr_overlay"></div>',
             template;
 
         angular.element($window).bind('resize', function(){
@@ -111,8 +112,12 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
               //////// Joyride was opened
               if (show) {
                 template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
-                angular.element(document.querySelector('body')).append(overlay);
+                // angular.element(document.querySelector('body')).append(overlay);
                 angular.element(document.querySelector('body')).addClass('jr_active');
+                console.log(scope.joyride.config.overlay);
+                if (scope.joyride.config.overlay !== false) {
+                  angular.element(document.querySelector('body')).addClass('jr_overlay_show');
+                }
                 function start(){
                   appendJoyride();
                     $animate.addClass(joyrideContainer, 'jr_start').then(scope.joyride.config.onStart);
@@ -216,8 +221,8 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
         // Reset variables after joyride ends
         var joyrideEnded = function(){
-          angular.element(document.querySelector('.jr_overlay')).remove()
-          angular.element(document.querySelector('body')).removeClass('jr_active');
+          // angular.element(document.querySelector('.jr_overlay')).remove()
+          angular.element(document.querySelector('body')).removeClass('jr_active jr_overlay_show');
           removeJoyride();
           scope.joyride.current = 0;
           scope.joyride.transitionStep = true;
