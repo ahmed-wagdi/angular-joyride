@@ -268,7 +268,7 @@
 
 
 
-.jr_active .jr_overlay {
+.jr_overlay_show .jr_overlay {
   opacity: 1;
   display: block;
   animation: fade .3s both;
