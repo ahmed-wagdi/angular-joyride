@@ -80,7 +80,7 @@ There are 2 available types:
 * __Regular:__ The default type, appears as a regular pop-up.
 * __Element:__ Highlights a certain element in the DOM. Requires the `selector` property to work and can be positioned with the `placement` property with top, right, bottom or left.
 
-#### Before/after step callbacks
+#### Before step callback
 These should be used if you want to pause between steps to execute some code first, for example opening a modal or going to a different page before going to the next step. Both these functions need to take a `resume` function  as the first paramater (you can rename it if you want) to be called when you want the joyride to resume.
 
 In the example below the modal should be open in the second step but it should be closed in the first and third step:
@@ -89,6 +89,7 @@ joyride.config.steps = [
     {
       title : 'Step 1',
       content: "<p>This step is on the main page with the modal closed.</p>",
+      beforeStep: closeModal
     },
     {
       type: 'element',
@@ -96,12 +97,12 @@ joyride.config.steps = [
       title: "Step 2",
       content: "This step should wait for the modal to open first!",
       beforeStep: openModal,
-      afterStep: closeModal,
       scroll: false
     },
     {
       title : 'Step 3',
       content: "<p>Last step is on the main page with the modal closed.</p>",
+      beforeStep: closeModal
     }
   ];
   
