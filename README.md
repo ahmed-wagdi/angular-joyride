@@ -55,7 +55,7 @@ The `start` property can be used to trigger the joyride, setting it to `true` st
 ### Configuration
 - __steps -__ The steps to be used in the joyride, expects an array of objects.
 - __overlay -__ Display overlay, default is true.
-- __template -__ If you don't want to use the joyride's default template this can be used to add a custom template.
+- __template -__ This can be used to add a custom template for the joyride, a path to an html file should be given.
 - __onStepChange -__ Callback for step change.
 - __onStart -__ Callback for joyride start.
 - __onFinish -__ Callback for joyride end.
@@ -186,36 +186,28 @@ This directive relies on `ngAnimate` and the [$animate](https://docs.angularjs.o
 ````
 
 ### Custom Templates
-If you want to use your own template for the joyride then include in your html a script tag similar to the following:
+If you want to use your own template for the joyride then add the template in an html file then enter the path to that file in your controller similar to the following:
+
 ````
-<script type="text/ng-template" id="myCustomTemplate.html">
-    /// Template Html here    
-</script>
-````
-and in your controller set the `template` property to your template's id:
-````
-joyride.template = 'myCustomTemplate.html'
+joyride.config.template = 'partials/myCustomTemplate.html'
 ````
 
 Your template must contain a div with the class `jr_container`, i would recommend copying the html of the default template and editing it, you can find the html below:
 ````
-
-<script type="text/ng-template" id="myCustomTemplate.html">
-  <div class="jr_container" id="jr_step_{{joyride.current}}">
-    <div class="jr_step">
-      <h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4>
-      <div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div>
+<div class="jr_container" id="jr_step_{{joyride.current}}">
+  <div class="jr_step">
+    <h4 ng-if="joyride.config.steps[joyride.current].title" class="jr_title">{{joyride.config.steps[joyride.current].title}}</h4>
+    <div ng-if="joyride.config.steps[joyride.current].content" class="jr_content" ng-bind-html="joyride.config.steps[joyride.current].content | jr_trust"></div>
+  </div>
+  <div class="jr_buttons">
+    <div class="jr_left_buttons">
+      <a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a>
     </div>
-    <div class="jr_buttons">
-      <div class="jr_left_buttons">
-        <a class="jr_button jr_skip" ng-click="joyride.start = false">Skip</a>
-      </div>
 
-      <div class="jr_right_buttons">
-        <a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{'disabled' : joyride.current === 0}">Prev</a>
-        <a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? 'Finish' : 'Next'"></a>
-      </div>
+    <div class="jr_right_buttons">
+      <a class="jr_button jr_prev" ng-click="joyride.prev()" ng-class="{'disabled' : joyride.current === 0}">Prev</a>
+      <a class="jr_button jr_next" ng-click="joyride.next()" ng-bind="(joyride.current == joyride.config.steps.length-1) ? 'Finish' : 'Next'"></a>
     </div>
   </div>
-</script>
+</div>
 ````
