@@ -91,6 +91,16 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           
           divElement.append(appendHtml);
           joyrideContainer = document.querySelector('.jr_container');
+
+          /// When joyride is nested inside an element this 
+          /// prevents any functions or state changes that are 
+          /// binded to the parentfrom executing when 
+          /// clicking on the joyride
+          angular.element(joyrideContainer).on('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+          });
+
           angular.element(joyrideContainer).append("<div class='triangle'></div>");
           if (scope.joyride.start) {
             if (!scope.joyride.transitionStep) {
@@ -137,9 +147,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               ////////// Joyride was closed
               if (!show) {
                 $animate.removeClass(joyrideContainer, 'jr_start').then(joyrideEnded);
-                if (document.querySelector(".jr_target")) {
-                  angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
-                }
               }
           }
         });
@@ -228,6 +235,9 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           scope.joyride.transitionStep = true;
           if (typeof scope.joyride.config.onFinish === "function") {
             scope.joyride.config.onFinish();
+          }
+          if (document.querySelector(".jr_target")) {
+            angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
           }
         }
 
