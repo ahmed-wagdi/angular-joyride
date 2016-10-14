@@ -62,7 +62,7 @@ function scrollToElement(to) {
 }
 
 ////////******* Joyride Directive *******//////////
-var joyrideDirective = function($animate, joyrideService, $compile, $templateCache, $timeout, $window){
+var joyrideDirective = function($animate, joyrideService, $compile, $templateRequest, $timeout, $window){
     return {
       restrict: 'E',
       scope: {},
@@ -92,7 +92,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
           divElement.append(appendHtml);
           joyrideContainer = document.querySelector('.jr_container');
           angular.element(joyrideContainer).append("<div class='triangle'></div>");
-
           if (scope.joyride.start) {
             if (!scope.joyride.transitionStep) {
               angular.element(joyrideContainer).addClass('jr_start').addClass('jr_transition');
@@ -111,27 +110,28 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
 
               //////// Joyride was opened
               if (show) {
-                template = $templateCache.get(scope.joyride.config.template) || $templateCache.get('ngJoyrideDefault.html');
-                // angular.element(document.querySelector('body')).append(overlay);
-                angular.element(document.querySelector('body')).addClass('jr_active');
-                console.log(scope.joyride.config.overlay);
-                if (scope.joyride.config.overlay !== false) {
-                  angular.element(document.querySelector('body')).addClass('jr_overlay_show');
-                }
+                template = scope.joyride.config.template || 'ngJoyrideDefault.html';
+                $templateRequest(template,false).then(function (html) {
+                  template=html;
+                  angular.element(document.querySelector('body')).addClass('jr_active');
+                  if (scope.joyride.config.overlay !== false) {
+                    angular.element(document.querySelector('body')).addClass('jr_overlay_show');
+                  }
+
+                  if (typeof scope.joyride.config.steps[scope.joyride.current].beforeStep === "function") {
+                    scope.joyride.config.steps[scope.joyride.current].beforeStep(start);
+                  }
+
+                  else{
+                    start();
+                  }
+                });
+                
                 function start(){
                   appendJoyride();
                     $animate.addClass(joyrideContainer, 'jr_start').then(scope.joyride.config.onStart);
                     setPos();
                 }
-
-                if (typeof scope.joyride.config.steps[scope.joyride.current].beforeStep === "function") {
-                  scope.joyride.config.steps[scope.joyride.current].beforeStep(start);
-                }
-
-                else{
-                  start();
-                }
-
               }
 
               ////////// Joyride was closed
@@ -319,7 +319,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateCac
                   position.left += width + 20;
                 }
                 // position.top -= 20;
-                console.log(position);
               }
 
               // Set joyride position
@@ -404,6 +403,6 @@ app.filter('jr_trust', [
 ]);
 
 app.factory('joyrideService', [joyrideService]);
-app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateCache', '$timeout', '$window', joyrideDirective]);
+app.directive('joyride', ['$animate', 'joyrideService', '$compile', '$templateRequest', '$timeout', '$window', joyrideDirective]);
 
 })();
