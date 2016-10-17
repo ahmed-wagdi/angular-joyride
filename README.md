@@ -5,14 +5,21 @@ A simple joyride directive for angular. This is inspired by [ng-joyride](https:/
 ## [Demo](http://ahmed-wagdi.github.io/angular-joyride)
 
 ## Installing
+Install with npm:
+```
+npm install angular-joyride
+```
+
 Install with bower:
 ```
 bower install angular-joyride
 ```
+
  Inject `angular-joyride` and `ngAnimate` into your angular module:
 ```
 angular.module('MyApp', ['ngAnimate', 'angular-joyride']);
 ```
+
  Add the `joyride` directive as an element:
 ```
 <joyride></joyride>
