@@ -103,7 +103,10 @@ app.controller('mainController', ['$scope', 'joyrideService', '$fancyModal', fun
 				selector: "#title",
 				title: "Joyride Demo",
 				content: "You can change the placement of the joyride",
-				placement: 'left'
+				placement: 'left',
+				responsive: {
+					breakpoint: 850
+				}
 			}
 		]
 	}

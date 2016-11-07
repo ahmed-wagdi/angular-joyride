@@ -68,7 +68,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
       scope: {},
       template: '<div class="jr_overlay"></div>',
       link: function(scope, element, attrs){
-        
         scope.joyride = joyrideService;
         var joyrideContainer,
             // overlay = '<div class="jr_overlay"></div>',
@@ -242,7 +241,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
         }
 
         // Handles joyride positioning
-        var setPos = function(){
+        function setPos(){
           var currentStep = scope.joyride.config.steps[scope.joyride.current];
 
           $timeout(function(){
@@ -255,18 +254,24 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           if (step.type == 'element') {
             joyrideContainer.removeAttribute('style');
             angular.element(joyrideContainer).addClass('jr_element');
+            
+
             if (document.querySelector(".jr_target")) {
               angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
             }
             
-            var jrElement = angular.element(document.querySelector(step.selector));
-            var position = getElementOffset(jrElement[0]);
+            var jrElement = angular.element(document.querySelector(step.selector)),
+                position = getElementOffset(jrElement[0]),
+                window_width = window.innerWidth;
+                
             jrElement.addClass('jr_target');
-
-
 
             // Check where the step should be positioned then change the position property accordingly 
             var placement = step.placement || 'bottom';
+            if (step.responsive && window_width < step.responsive.breakpoint) {
+              placement = step.responsive.placement || 'bottom';
+            }
+
             angular.element(joyrideContainer).addClass('jr_pos_'+placement);
 
             if (currentStep.appendToBody){
@@ -295,11 +300,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
 
                 }
 
-                else if((position.left + jrWidth) > angular.element($window).width()){
+                else if((position.left + jrWidth) > window_width){
                   var tempPos = position.left + (jrWidth/2)
                   var triangle = document.querySelector(".jr_container .triangle");
                   triangle.style.right = "auto";
-                  position.left = angular.element($window).width() - jrWidth;
+                  position.left = window_width - jrWidth;
                   triangle.style.left = tempPos - position.left - triangle.offsetWidth / 2  + 'px';
                 }
                 
