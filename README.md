@@ -126,6 +126,23 @@ joyride.config.steps = [
     });
   }
 ````
+### Responsive Positioning
+It's possible to switch the placement of a step based on the screen width by declaring a `responsive` property inside a step object:
+
+````
+    {
+      type: 'element',
+      selector: '.button',
+      title: "Step 2",
+      content: "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+      placement: 'left',
+      responsive: {
+        breakpoint: 600,
+        placement: 'top'
+      }
+    }
+````
+The `responsive` object takes 2 properties, the breakpoint where you want to change the placement (in pixels) and the new placement, if no placement is given then it will be set to bottom by default. This directive only supports the use of 1 breakpoint.
 
 ### Methods
 | Method        | Description           
