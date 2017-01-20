@@ -1,38 +1,38 @@
 {
-"name": "angular-joyride",
-"version": "1.0.2",
-"description": "A lightweight joyride directive for AngularJs",
-"main": "dist/joyride.js",
-"dependencies": {},
-"devDependencies": {
-"gulp": "^3.9.1",
-"gulp-minify": "0.0.14",
-"gulp-rename": "1.2.2",
-"gulp-sass": "2.3.2"
-},
-"scripts": {
-"test": "echo \"Error: no test specified\" && exit 1"
-},
-"repository": {
-"type": "git",
-"url": "git+https://github.com/ahmed-wagdi/angular-joyride.git"
-},
-"keywords": [
-"joyride",
-"angular",
-"directive"
-],
-"author": {
+  "name": "angular-joyride",
+  "version": "1.0.3",
+  "description": "A lightweight joyride directive for AngularJs",
+  "main": "dist/joyride.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minify": "0.0.14",
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "2.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahmed-wagdi/angular-joyride.git"
+  },
+  "keywords": [
+    "joyride",
+    "angular",
+    "directive"
+  ],
+  "author": {
     "name": "Ahmed Wagdi",
     "email": "ahmedwagdi57@gmail.com",
     "url": "https://github.com/ahmed-wagdi"
   },
-"contributors": [
-"Matt Grande <matt.grande@gmail.com>"
-],
-"license": "MIT",
-"bugs": {
-"url": "https://github.com/ahmed-wagdi/angular-joyride/issues"
-},
-"homepage": "https://github.com/ahmed-wagdi/angular-joyride"
+  "contributors": [
+    "Matt Grande <matt.grande@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ahmed-wagdi/angular-joyride/issues"
+  },
+  "homepage": "https://github.com/ahmed-wagdi/angular-joyride"
 }
