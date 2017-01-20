@@ -34,13 +34,12 @@ function getScroll(){
 }
 
 function scrollToElement(to) {
-    var element = document.body,
-      start = element.scrollTop,
-        change = to - start,
+  var start = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+      change = to - start,
       duration = Math.min((4 * Math.abs(change)), 1000),
-        currentTime = 0,
-        increment = 20;
-
+      currentTime = 0,
+      increment = 20;
+      
   if (Math.abs(change) > 10) {
       function easeInOutQuad (t, b, c, d) {
       t /= d/2;
@@ -52,7 +51,7 @@ function scrollToElement(to) {
       var animateScroll = function(){        
           currentTime += increment;
           var val = easeInOutQuad(currentTime, start, change, duration);
-          element.scrollTop = val;
+          window.scrollTo(0, val);
           if(currentTime < duration) {
               setTimeout(animateScroll, increment);
           }
@@ -350,12 +349,18 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
             // Scroll to element if scroll is enabled
               if (step.scroll !== false) {
                 if (placement === 'bottom') {
-                  scrollToElement(position.top - jrElement[0].clientHeight);
+                  scroll_pos = position.top - jrElement[0].clientHeight;
+                }
+                else if(placement === 'top'){
+                  scroll_pos = position.top - joyrideContainer.clientHeight;
                 }
                 else{
-                  scrollToElement(position.top);
+                  if(jrElement[0].clientHeight < joyrideContainer.clientHeight){
+                    scroll_pos = position.top -  (joyrideContainer.clientHeight - jrElement[0].clientHeight) /2;
+                  }
                 }
                 
+                scrollToElement(scroll_pos);
               }
           }
 
