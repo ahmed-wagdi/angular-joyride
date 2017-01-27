@@ -1,3 +1,9 @@
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+}
+
 .jr_container {
   display: none;
   background: white;
@@ -62,10 +68,6 @@
 
 .jr_container.jr_element.jr_pos_left {
   top: 50%;
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
   transform: translateY(-50%);
   right: calc(100% + 15px);
   margin: auto;
@@ -85,10 +87,6 @@
 
 .jr_container.jr_element.jr_pos_right {
   top: 50%;
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
   transform: translateY(-50%);
   left: calc(100% + 15px);
 }
@@ -158,37 +156,21 @@
 
 .jr_container.jr_transition-add {
   opacity: 1;
-  -webkit-transform: translateY(0px);
-  -moz-transform: translateY(0px);
-  -ms-transform: translateY(0px);
-  -o-transform: translateY(0px);
   transform: translateY(0px);
 }
 
 .jr_container.jr_transition-add-active {
-  -webkit-transform: translateY(-100px);
-  -moz-transform: translateY(-100px);
-  -ms-transform: translateY(-100px);
-  -o-transform: translateY(-100px);
   transform: translateY(-100px);
   opacity: 0;
 }
 
 .jr_container.jr_transition-remove {
   opacity: 0;
-  -webkit-transform: translateY(-100px);
-  -moz-transform: translateY(-100px);
-  -ms-transform: translateY(-100px);
-  -o-transform: translateY(-100px);
   transform: translateY(-100px);
 }
 
 .jr_container.jr_transition-remove-active {
   opacity: 1;
-  -webkit-transform: translateY(0px);
-  -moz-transform: translateY(0px);
-  -ms-transform: translateY(0px);
-  -o-transform: translateY(0px);
   transform: translateY(0px);
 }
 
@@ -213,10 +195,10 @@
   padding: 10px;
 }
 
-.jr_container .jr_buttons::after {
-  clear: both;
+.jr_container .jr_buttons:after {
   content: "";
   display: table;
+  clear: both;
 }
 
 .jr_container .jr_left_buttons {
@@ -258,11 +240,13 @@
   width: 100%;
   z-index: 1000;
   opacity: 0;
-  transition: opacity .3s;
+  display: none;
 }
 
-.jr_active .jr_overlay {
+.jr_overlay_show .jr_overlay {
   opacity: 1;
+  display: block;
+  animation: fade .3s both;
 }
 
 .jr_target {
