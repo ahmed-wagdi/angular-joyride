@@ -87,8 +87,8 @@ There are 2 available types:
 * __Regular:__ The default type, appears as a regular pop-up.
 * __Element:__ Highlights a certain element in the DOM. Requires the `selector` property to work and can be positioned with the `placement` property with top, right, bottom or left.
 
-#### Before step callback
-These should be used if you want to pause between steps to execute some code first, for example opening a modal or going to a different page before going to the next step. Both these functions need to take a `resume` function  as the first paramater (you can rename it if you want) to be called when you want the joyride to resume.
+### Before step callback
+This should be used if you want to pause between steps to execute some code first, for example opening a modal or going to a different page before going to the next step. If you use the `beforeStep` callback then the joyride will be paused, you have to let it know once you're done so that it can continue, you can do that by using the `resumeJoyride` function.
 
 In the example below the modal should be open in the second step but it should be closed in the first and third step:
 ````
@@ -114,18 +114,86 @@ joyride.config.steps = [
   ];
   
   // Make sure to call resume to let the joyride know it should continue
-  function openModal(resume){
+  function openModal(){
     modal.open.then(function(){
-        resume();
+        joyride.resumeJoyride();
     });
   }
   
-  function closeModal(resume){
+  function closeModal(){
     modal.close.then(function(){
-        resume();
+        joyride.resumeJoyride();
     });
   }
 ````
+
+#### Multipage Joyride
+You can also use the `beforeStep` callback to navigate between different pages in between steps.
+
+Here's an example for `ui-router`, if you're using an older version of ui-router then you might need to use the $stateChange* events instead of $transitions:
+
+1. In your controller use `beforeStep` to navigate to a different state:
+  ````
+  joyride.config = {
+    steps : [
+      {
+        title: "Step 1",
+        content: "<p>Welcome to the joyride demo!</p><p>This is a simple joyride directive built to have minimal dependencies.</p>"
+      },
+      {
+        title: "Step 2",
+        content: "<p>Welcome to the joyride demo!</p><p>This is a simple joyride directive built to have minimal dependencies.</p>",
+        beforeStep: toHome
+      },
+      {
+        title: "Step 3",
+        content: "<p>Welcome to the joyride demo!</p><p>This is a simple joyride directive built to have minimal dependencies.</p>",
+        beforeStep: toAbout
+      }
+    ]
+  }
+  
+  function toHome(){
+    $state.go("home");
+  }
+  
+  function toAbout(){
+    $state.go("about");
+  }
+  
+  ````
+
+2. To resume the joyride we need to call `resumeJoyride` after the state changes and if no state change takes place at all:
+  ````
+  app.run(function($transitions, joyrideService, $timeout) {
+    
+    /** After changing states call resumeJoyride 
+     *  to un-pause. The $timeout just fixes an
+     *  animation issue if the next step is of
+     *  type "element"
+    **/
+    $transitions.onFinish({ }, function(trans) {
+      trans.promise.then(function(response){
+        $timeout(function(){
+          joyrideService.resumeJoyride();  
+        })
+      });
+    });
+
+    /** Handles the case when you're beforeStep 
+     *  function calls $state.go and tries to 
+     *  go to the current state.
+    **/
+    $transitions.onBefore({ }, function(trans) {
+      trans.promise.then(null,function(response){
+          joyrideService.resumeJoyride();  
+      })
+    });
+    
+  })
+  ````
+
+
 ### Responsive Positioning
 It's possible to switch the placement of a step based on the screen width by declaring a `responsive` property inside a step object:
 

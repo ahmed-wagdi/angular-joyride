@@ -184,25 +184,27 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           }
         }
 
+        ////// Remove -> Append joyride and transition in
+        scope.joyride.resumeJoyride = function(){
+          if (!scope.joyride.start) {
+            return;
+          }
+          scope.joyride.transitionStep = false;  
+          if (typeof scope.joyride.config.onStepChange === "function") {
+            scope.joyride.config.onStepChange();
+          }
+          removeJoyride();
+          appendJoyride();
+          $timeout(function(){
+            setPos();
+          })
+        }
+
 
         ////// Set position and current step after joyride transitions out
         function afterTransition(){
 
           ////// transitions in the next step
-            function transitionIn(){
-
-              scope.joyride.transitionStep = false;  
-              if (typeof scope.joyride.config.onStepChange === "function") {
-                scope.joyride.config.onStepChange();
-              }
-              removeJoyride();
-              appendJoyride();
-              $timeout(function(){
-                setPos();
-              })
-            }
-
-
             if (scope.joyride.transitionStep == 'next') {
               scope.joyride.current++;
             }
@@ -215,11 +217,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
             // execute it first before transitioning in
             // else just transition in
               if (typeof scope.joyride.config.steps[scope.joyride.current].beforeStep === "function") {
-                scope.joyride.config.steps[scope.joyride.current].beforeStep(transitionIn);
+                scope.joyride.config.steps[scope.joyride.current].beforeStep(scope.joyride.resumeJoyride);
               }
 
               else{
-                transitionIn();
+                scope.joyride.resumeJoyride();
               }
             
         }
@@ -388,6 +390,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
     return {
       current : 0,
       transitionStep: true, 
+      resumeJoyride: function(){},
       start: false,
       config: {
         overlay: true,
