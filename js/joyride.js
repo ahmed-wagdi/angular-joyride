@@ -94,10 +94,12 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           /// prevents any functions or state changes that are 
           /// binded to the parentfrom executing when 
           /// clicking on the joyride
-          angular.element(joyrideContainer).on('click', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-          });
+          if (currentStep.type === 'element' && !currentStep.appendToBody) {
+            angular.element(joyrideContainer).on('click', function(event) {
+              event.preventDefault();
+              event.stopPropagation();
+            });
+          }
 
           angular.element(joyrideContainer).append("<div class='triangle'></div>");
           if (scope.joyride.start) {
