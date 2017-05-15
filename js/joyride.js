@@ -81,10 +81,15 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
         function appendJoyride(){
           var appendHtml = $compile(template)(scope),
               currentStep = scope.joyride.config.steps[scope.joyride.current],
-              divElement = angular.element(document.querySelector('body'));
+              divElement = angular.element(document.querySelector('body')),
+              hasSelectedElement = false;
           
           if (currentStep.type === 'element' && !currentStep.appendToBody) {
-            var divElement = angular.element(document.querySelector(currentStep.selector));
+            var tempElement = angular.element(document.querySelector(currentStep.selector));
+            if (tempElement.length) {
+              hasSelectedElement = true;
+              divElement = tempElement;
+            }
           }
           
           divElement.append(appendHtml);
@@ -94,7 +99,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           /// prevents any functions or state changes that are 
           /// binded to the parentfrom executing when 
           /// clicking on the joyride
-          if (currentStep.type === 'element' && !currentStep.appendToBody) {
+          if (hasSelectedElement) {
             angular.element(joyrideContainer).on('click', function(event) {
               event.preventDefault();
               event.stopPropagation();
@@ -254,7 +259,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
 
 
           // If step type equals 'element' set position and styles
-          if (step.type == 'element') {
+          if (step.type == 'element' && document.querySelector(step.selector)) {
             joyrideContainer.removeAttribute('style');
             angular.element(joyrideContainer).addClass('jr_element');
             
