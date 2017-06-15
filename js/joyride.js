@@ -251,7 +251,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           }
         }
 
-        // Handles joyride positioning
+       // Handles joyride positioning
         function setPos(){
           var currentStep = scope.joyride.config.steps[scope.joyride.current];
 
@@ -259,25 +259,31 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
 
             removeClassByPrefix(joyrideContainer, "jr_pos_");
             var step = scope.joyride.config.steps[scope.joyride.current];
-
+            
 
           // If step type equals 'element' set position and styles
           if (step.type == 'element' && document.querySelector(step.selector)) {
             joyrideContainer.removeAttribute('style');
             angular.element(joyrideContainer).addClass('jr_element');
-
+            
 
             if (document.querySelector(".jr_target")) {
-              angular.element(document.querySelector(".jr_target")).removeClass('jr_target');
+              angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
             }
-
+            
             var jrElement = angular.element(document.querySelector(step.selector)),
                 position = getElementOffset(jrElement[0]),
                 window_width = window.innerWidth;
 
+            var jrWidth = joyrideContainer.offsetWidth,
+                targetWidth = jrElement[0].offsetWidth;
+                
             jrElement.addClass('jr_target');
 
-            // Check where the step should be positioned then change the position property accordingly
+            /********************************************
+            Check where the step should be positioned then 
+            change the position property accordingly 
+            ********************************************/
             var placement = step.placement || 'bottom';
             if (step.responsive && window_width < step.responsive.breakpoint) {
               placement = step.responsive.placement || 'bottom';
@@ -296,43 +302,16 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
                   var height = jrElement[0].clientHeight;
                   position.top += height + 20;
                 }
-                var jrWidth = joyrideContainer.clientWidth,
-                    targetWidth = jrElement[0].clientWidth;
+                
 
-                // var leftOffset = Math.max(jrWidth, targetWidth) - Math.min(jrWidth, targetWidth)/2;
-                // position.left = Math.max(leftOffset, position.left) - Math.min(leftOffset, position.left);
                 position.left = ((position.left + targetWidth/2) - jrWidth/2 );
-
-                if (position.left < 0) {
-                  var triangle = document.querySelector(".jr_container .triangle");
-                  triangle.style.left = position.left + Math.abs((jrWidth - targetWidth + triangle.offsetWidth)/2)  + 'px';
-                  triangle.style.right = "auto";
-                  position.left = 0;
-
-                }
-
-                else if((position.left + jrWidth) > window_width){
-                  var tempPos = position.left + (jrWidth/2)
-                  var triangle = document.querySelector(".jr_container .triangle");
-                  triangle.style.right = "auto";
-                  position.left = window_width - jrWidth;
-                  triangle.style.left = tempPos - position.left - triangle.offsetWidth / 2  + 'px';
-                }
-
-                else{
-
-                  var triangle = document.querySelector(".jr_container .triangle");
-                  triangle.style.left = 0;
-                  triangle.style.right = 0;
-                }
-
+                
               }
 
               else{
                 var jrHeight = joyrideContainer.clientHeight,
                     targetHeight = jrElement[0].clientHeight;
-                // var leftOffset = Math.max(jrWidth, targetWidth) - Math.min(jrWidth, targetWidth)/2;
-                // position.left = Math.max(leftOffset, position.left) - Math.min(leftOffset, position.left);
+                
                 position.top = ((position.top + targetHeight/2) - jrHeight/2 );
                 if (placement === 'left') {
                   var width = joyrideContainer.clientWidth;
@@ -344,7 +323,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
                   var width = jrElement[0].clientWidth;
                   position.left += width + 20;
                 }
-                // position.top -= 20;
+
               }
 
               // Set joyride position
@@ -353,9 +332,28 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               joyrideContainer.style.right = 'auto';
               joyrideContainer.style.bottom = 'auto';
               joyrideContainer.style.transform = 'none';
+              
+            
+            }
+            
+            // Check if Joyride is out of bounds and adjust position
+            var joyridePosition = getElementOffset(joyrideContainer);
 
+            if(joyridePosition.left < 0){
+              var triangle = document.querySelector(".jr_container .triangle");
+              triangle.style.left = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
+              triangle.style.right = "auto";
+              joyrideContainer.style.left = 0;
+              joyrideContainer.style.right = "auto";
+            }
 
-
+            else if((joyridePosition.left + jrWidth) > window_width){
+              var tempPos = joyridePosition.left + (jrWidth/2)
+              var triangle = document.querySelector(".jr_container .triangle");
+              triangle.style.right = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
+              triangle.style.left = "auto";
+              joyrideContainer.style.left = "auto";
+              joyrideContainer.style.right = 0;
             }
 
             // Scroll to element if scroll is enabled
@@ -371,7 +369,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
                     scroll_pos = position.top -  (joyrideContainer.clientHeight - jrElement[0].clientHeight) /2;
                   }
                 }
-
+                
                 scrollToElement(scroll_pos);
               }
           }
@@ -381,7 +379,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           else{
             angular.element(joyrideContainer).removeClass('jr_element');
             if (document.querySelector(".jr_target")) {
-              angular.element(document.querySelector(".jr_target")).removeClass('jr_target');
+              angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
             }
             joyrideContainer.style.left = '';
             joyrideContainer.style.top = getScroll(placement, joyrideContainer) + 100 + 'px';

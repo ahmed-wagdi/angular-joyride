@@ -89,7 +89,7 @@
 
 	&.jr_element{
 		width: 300px;
-		&:after{
+		.triangle{
 			content: "";
 			position: absolute;
 			margin: auto;
@@ -100,7 +100,7 @@
 		    left: -9999px;
 		    right: -9999px;
 		    margin: auto;
-			&:after{
+			.triangle{
 				left: 0;
 				right: 0;
 				bottom: 100%;
@@ -112,7 +112,7 @@
 		    left: -9999px;
 		    right: -9999px;
 		    margin: auto;
-			&:after{
+			.triangle{
 				top: 100%;
 				@include triangle(25px, white, down);
 			}
@@ -122,7 +122,7 @@
 			transform: translateY(-50%);
 		    right: calc(100% + 15px);
 		    margin: auto;
-			&:after{
+			.triangle{
 				left: 100%;
 				top: 0;
 				bottom: 0;
@@ -134,7 +134,7 @@
 			top: 50%;
 			transform: translateY(-50%);
 		    left: calc(100% + 15px);
-			&:after{
+			.triangle{
 				right: 100%;
 				top: 0;
 				bottom: 0;
@@ -143,26 +143,26 @@
 			}
 		}
 	}
-	////////PLACEMENT STYLES
-	&.jr_pos_bottom{
-		&:after{
-			left: 0;
-			right: 0;
-			margin: auto;
-			bottom: 100%;
-			@include triangle(25px, white, up);
-		}
-	}
+	
+	// &.jr_pos_bottom{
+	// 	.triangle{
+	// 		left: 0;
+	// 		right: 0;
+	// 		margin: auto;
+	// 		bottom: 100%;
+	// 		@include triangle(25px, white, up);
+	// 	}
+	// }
 
-	&.jr_pos_top{
-		&:after{
-			left: 0;
-			right: 0;
-			margin: auto;
-			top: 100%;
-			@include triangle(25px, white, down);
-		}
-	}
+	// &.jr_pos_top{
+	// 	.triangle{
+	// 		left: 0;
+	// 		right: 0;
+	// 		margin: auto;
+	// 		top: 100%;
+	// 		@include triangle(25px, white, down);
+	// 	}
+	// }
 
 	//////// START/END ANIMATIONS
 	&.jr_start{

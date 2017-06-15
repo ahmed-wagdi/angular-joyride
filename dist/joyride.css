@@ -26,7 +26,7 @@
   width: 300px;
 }
 
-.jr_container.jr_element:after {
+.jr_container.jr_element .triangle {
   content: "";
   position: absolute;
   margin: auto;
@@ -39,7 +39,7 @@
   margin: auto;
 }
 
-.jr_container.jr_element.jr_pos_bottom:after {
+.jr_container.jr_element.jr_pos_bottom .triangle {
   left: 0;
   right: 0;
   bottom: 100%;
@@ -57,7 +57,7 @@
   margin: auto;
 }
 
-.jr_container.jr_element.jr_pos_top:after {
+.jr_container.jr_element.jr_pos_top .triangle {
   top: 100%;
   height: 0;
   width: 0;
@@ -73,7 +73,7 @@
   margin: auto;
 }
 
-.jr_container.jr_element.jr_pos_left:after {
+.jr_container.jr_element.jr_pos_left .triangle {
   left: 100%;
   top: 0;
   bottom: 0;
@@ -91,7 +91,7 @@
   left: calc(100% + 15px);
 }
 
-.jr_container.jr_element.jr_pos_right:after {
+.jr_container.jr_element.jr_pos_right .triangle {
   right: 100%;
   top: 0;
   bottom: 0;
@@ -101,30 +101,6 @@
   border-bottom: 12.5px solid transparent;
   border-right: 12.5px solid white;
   border-top: 12.5px solid transparent;
-}
-
-.jr_container.jr_pos_bottom:after {
-  left: 0;
-  right: 0;
-  margin: auto;
-  bottom: 100%;
-  height: 0;
-  width: 0;
-  border-bottom: 12.5px solid white;
-  border-left: 12.5px solid transparent;
-  border-right: 12.5px solid transparent;
-}
-
-.jr_container.jr_pos_top:after {
-  left: 0;
-  right: 0;
-  margin: auto;
-  top: 100%;
-  height: 0;
-  width: 0;
-  border-left: 12.5px solid transparent;
-  border-right: 12.5px solid transparent;
-  border-top: 12.5px solid white;
 }
 
 .jr_container.jr_start {
