@@ -98,10 +98,12 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
           divElement.append(appendHtml);
           joyrideContainer = document.querySelector('.jr_container');
 
-          /// When joyride is nested inside an element this
-          /// prevents any functions or state changes that are
-          /// binded to the parentfrom executing when
-          /// clicking on the joyride
+          /********************************************
+          When joyride is nested inside an element this
+          prevents any functions or state changes that are
+          binded to the parentfrom executing when
+          clicking on the joyride
+          ********************************************/
           if (hasSelectedElement) {
             angular.element(joyrideContainer).on('click', function(event) {
               event.preventDefault();
@@ -222,10 +224,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               scope.joyride.current--;
             }
 
-
-            // if step contains a beforeStep function
-            // execute it first before transitioning in
-            // else just transition in
+            /********************************************
+            if step contains a beforeStep function
+            execute it first before transitioning in
+            else just transition in
+            ********************************************/
               if (typeof scope.joyride.config.steps[scope.joyride.current].beforeStep === "function") {
                 scope.joyride.config.steps[scope.joyride.current].beforeStep(scope.joyride.resumeJoyride);
               }
@@ -238,7 +241,6 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
 
         // Reset variables after joyride ends
         var joyrideEnded = function(){
-          // angular.element(document.querySelector('.jr_overlay')).remove()
           angular.element(document.querySelector('body')).removeClass('jr_active jr_overlay_show');
           removeJoyride();
           scope.joyride.current = 0;
@@ -282,7 +284,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
 
             /********************************************
             Check where the step should be positioned then 
-            change the position property accordingly 
+            change the position property accordingly
             ********************************************/
             var placement = step.placement || 'bottom';
             if (step.responsive && window_width < step.responsive.breakpoint) {
@@ -335,25 +337,30 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               
             
             }
-            
-            // Check if Joyride is out of bounds and adjust position
-            var joyridePosition = getElementOffset(joyrideContainer);
 
-            if(joyridePosition.left < 0){
-              var triangle = document.querySelector(".jr_container .triangle");
-              triangle.style.left = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
-              triangle.style.right = "auto";
-              joyrideContainer.style.left = 0;
-              joyrideContainer.style.right = "auto";
-            }
+            /************************************************ 
+            Check if Joyride is out of bounds and adjust position
+            (only if placement is set to bottom/top)
+            ************************************************/
+            if(placement !== "left" && placement !== "right"){
+              var joyridePosition = getElementOffset(joyrideContainer);
 
-            else if((joyridePosition.left + jrWidth) > window_width){
-              var tempPos = joyridePosition.left + (jrWidth/2)
-              var triangle = document.querySelector(".jr_container .triangle");
-              triangle.style.right = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
-              triangle.style.left = "auto";
-              joyrideContainer.style.left = "auto";
-              joyrideContainer.style.right = 0;
+              if(joyridePosition.left < 0){
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.left = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
+                triangle.style.right = "auto";
+                joyrideContainer.style.left = 0;
+                joyrideContainer.style.right = "auto";
+              }
+
+              else if((joyridePosition.left + jrWidth) > window_width){
+                var tempPos = joyridePosition.left + (jrWidth/2)
+                var triangle = document.querySelector(".jr_container .triangle");
+                triangle.style.right = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
+                triangle.style.left = "auto";
+                joyrideContainer.style.left = "auto";
+                joyrideContainer.style.right = 0;
+              }
             }
 
             // Scroll to element if scroll is enabled
