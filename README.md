@@ -4,7 +4,14 @@ A simple joyride directive for angular. This is inspired by [ng-joyride](https:/
 
 ## [Demo](http://ahmed-wagdi.github.io/angular-joyride)
 
-## Installing
+## Key Features
+1. **Minumum dependencies:** Only AngularJS and ngAnimate are required.
+2. **Customizability:** The directive gives you the ability to customize the positioning, styling, HTML and even the animations of the joyride.
+3. **Auto-adjusting positioning:** You choose where the joyride should be positioned, but in cases where the joyride might go offscreen the directive will adjust it's position to make sure it stays completely visible.
+4. **Responsive Positioning:** For cases where the auto-adjusting position isn't enough, you can specify a certain breakpoint where you want to completely change the placement of the joyride to ensure it works on smaller screens.
+
+
+## Installation
 Install with npm:
 ```
 npm install angular-joyride
