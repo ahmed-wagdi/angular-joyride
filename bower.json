@@ -1,6 +1,6 @@
 {
   "name": "angular-joyride",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "homepage": "https://github.com/ahmed-wagdi/angular-joyride",
   "description": "A lightweight joyride directive for AngularJs",
   "main": "dist/joyride.js",
