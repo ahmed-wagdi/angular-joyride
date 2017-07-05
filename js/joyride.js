@@ -347,7 +347,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
 
               if(joyridePosition.left < 0){
                 var triangle = document.querySelector(".jr_container .triangle");
-                triangle.style.left = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
+                triangle.style.left = (jrWidth/2 - triangle.offsetWidth/2 + joyridePosition.left)  + 'px';
                 triangle.style.right = "auto";
                 joyrideContainer.style.left = 0;
                 joyrideContainer.style.right = "auto";
@@ -356,7 +356,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               else if((joyridePosition.left + jrWidth) > window_width){
                 var tempPos = joyridePosition.left + (jrWidth/2)
                 var triangle = document.querySelector(".jr_container .triangle");
-                triangle.style.right = (targetWidth/2 - triangle.offsetWidth/2)  + 'px';
+                triangle.style.right = (jrWidth/2 - triangle.offsetWidth/2 - (joyridePosition.left + jrWidth - window_width))  + 'px';
                 triangle.style.left = "auto";
                 joyrideContainer.style.left = "auto";
                 joyrideContainer.style.right = 0;
