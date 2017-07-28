@@ -273,12 +273,15 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               angular.element(document.querySelector(".jr_target")).removeClass('jr_target');  
             }
             
-            var jrElement = angular.element(document.querySelector(step.selector)),
-                position = getElementOffset(jrElement[0]),
-                window_width = window.innerWidth;
+            var jrElement = angular.element(document.querySelector(step.selector));
+            var position = getElementOffset(jrElement[0]);
+            var window_width = window.innerWidth;
 
-            var jrWidth = joyrideContainer.offsetWidth,
-                targetWidth = jrElement[0].offsetWidth;
+            var jrWidth = joyrideContainer.offsetWidth;
+            var targetWidth = jrElement[0].offsetWidth;
+            
+            var jrHeight = joyrideContainer.clientHeight;
+            var targetHeight = jrElement[0].clientHeight;
                 
             jrElement.addClass('jr_target');
 
@@ -296,13 +299,11 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
             if (currentStep.appendToBody){
               if (placement === 'top' || placement === 'bottom') {
                 if (placement === 'top') {
-                  var height = joyrideContainer.clientHeight;
-                  position.top -= height + 20;
+                  position.top -= jrHeight + 20;
                 }
 
                 else {
-                  var height = jrElement[0].clientHeight;
-                  position.top += height + 20;
+                  position.top += targetHeight + 20;
                 }
                 
 
@@ -311,19 +312,16 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               }
 
               else{
-                var jrHeight = joyrideContainer.clientHeight,
-                    targetHeight = jrElement[0].clientHeight;
+                
                 
                 position.top = ((position.top + targetHeight/2) - jrHeight/2 );
                 if (placement === 'left') {
-                  var width = joyrideContainer.clientWidth;
-                  position.left -= width + 20;
+                  position.left -= jrWidth + 20;
 
                 }
 
                 else {
-                  var width = jrElement[0].clientWidth;
-                  position.left += width + 20;
+                  position.left += targetWidth + 20;
                 }
 
               }
@@ -338,12 +336,16 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
             
             }
 
-            /************************************************ 
+            /** 
             Check if Joyride is out of bounds and adjust position
-            (only if placement is set to bottom/top)
-            ************************************************/
+            */
+            
+            var joyridePosition = getElementOffset(joyrideContainer);
+
+            /**
+            Handle top/bottom cases
+            */
             if(placement !== "left" && placement !== "right"){
-              var joyridePosition = getElementOffset(joyrideContainer);
 
               if(joyridePosition.left < 0){
                 var triangle = document.querySelector(".jr_container .triangle");
@@ -362,18 +364,19 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
                 joyrideContainer.style.right = 0;
               }
             }
+            
 
             // Scroll to element if scroll is enabled
               if (step.scroll !== false) {
                 if (placement === 'bottom') {
-                  scroll_pos = position.top - jrElement[0].clientHeight;
+                  scroll_pos = position.top - targetHeight;
                 }
                 else if(placement === 'top'){
-                  scroll_pos = position.top - joyrideContainer.clientHeight;
+                  scroll_pos = position.top - jrHeight;
                 }
                 else{
-                  if(jrElement[0].clientHeight < joyrideContainer.clientHeight){
-                    scroll_pos = position.top -  (joyrideContainer.clientHeight - jrElement[0].clientHeight) /2;
+                  if(targetHeight < jrHeight){
+                    scroll_pos = position.top -  (jrHeight - targetHeight) /2;
                   }
                 }
                 
