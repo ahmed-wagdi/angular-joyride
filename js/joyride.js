@@ -366,6 +366,23 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
             }
             
 
+            /**
+            Handle left/right cases
+            */
+            else{
+
+              if(joyridePosition.top < 0){
+                var triangle = document.querySelector(".jr_container .triangle");
+                var trianglePos = targetHeight/2 - triangle.offsetHeight/2;
+                triangle.style.top = trianglePos < 0 ? 0 + "px" : trianglePos + "px";
+
+                triangle.style.bottom = "auto";
+                joyrideContainer.style.top = 0;
+                joyrideContainer.style.transform = "none";
+              }
+
+            }
+
             // Scroll to element if scroll is enabled
               if (step.scroll !== false) {
                 if (placement === 'bottom') {
