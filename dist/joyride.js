@@ -221,7 +221,9 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
               scope.joyride.current++;
             }
             else{
-              scope.joyride.current--;
+              if (scope.joyride.current > 0) {
+                scope.joyride.current--;
+              }
             }
 
             /********************************************
