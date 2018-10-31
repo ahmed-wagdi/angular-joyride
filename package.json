@@ -1,6 +1,6 @@
 {
   "name": "angular-joyride",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A lightweight joyride directive for AngularJs",
   "main": "dist/joyride.js",
   "dependencies": {},
