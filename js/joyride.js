@@ -33,7 +33,7 @@ function getScroll(){
  }
 }
 
-function scrollToElement(to) {
+function scrollToElement(hash, to) {
   var start = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
       change = to - start,
       duration = Math.min((4 * Math.abs(change)), 1000),
@@ -52,6 +52,11 @@ function scrollToElement(to) {
           currentTime += increment;
           var val = easeInOutQuad(currentTime, start, change, duration);
           window.scrollTo(0, val);
+          if (hash !== undefined) {
+              document.getElementById(hash).scrollTop = val;
+          } else {
+              window.scrollTo(0, val);
+          }
           if(currentTime < duration) {
               setTimeout(animateScroll, increment);
           }
@@ -397,7 +402,7 @@ var joyrideDirective = function($animate, joyrideService, $compile, $templateReq
                   }
                 }
                 
-                scrollToElement(scroll_pos);
+                scrollToElement(scope.joyride.config.hash, scroll_pos);
               }
           }
 
