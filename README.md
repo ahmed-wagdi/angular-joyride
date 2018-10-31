@@ -69,6 +69,7 @@ The `start` property can be used to trigger the joyride, setting it to `true` st
 ### Configuration
 - __steps -__ The steps to be used in the joyride, expects an array of objects.
 - __overlay -__ Display overlay, default is true.
+- __hash -__ Use the specified hash element for apply scroll (optional). Default is undefined (use window.scrollTo).
 - __template -__ This can be used to add a custom template for the joyride, a path to an html file should be given.
 - __onStepChange -__ Callback for step change.
 - __onStart -__ Callback for joyride start.
